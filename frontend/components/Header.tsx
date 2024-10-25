@@ -1,4 +1,3 @@
-import Image from "next/image";
 import { Search, ShoppingCart } from "lucide-react";
 import {
   Sheet,
@@ -26,7 +25,6 @@ const Header = () => {
         <div className="flex h-16 items-center justify-between">
           {/* Logo Start */}
           <div className="flex-1 md:flex md:items-center md:gap-12">
-            <Image src="/logo.png" alt="Logo" width={100} height={100} />
             <Link
               className="flex items-center text-secondary text-3xl font-semibold hover:opacity-90 transition"
               href="/"
@@ -108,7 +106,7 @@ const Header = () => {
               <div className="block md:hidden">
                 <Sheet>
                   <SheetTrigger>
-                    <button className="rounded bg-gray-100 p-2 text-gray-600 transition hover:text-gray-600/75">
+                    <div className="rounded bg-gray-100 p-2 text-gray-600 transition hover:text-gray-600/75">
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         className="h-6 w-6"
@@ -123,7 +121,7 @@ const Header = () => {
                           d="M4 6h16M4 12h16M4 18h16"
                         />
                       </svg>
-                    </button>
+                    </div>
                   </SheetTrigger>
                   <SheetContent>
                     <SheetHeader>
