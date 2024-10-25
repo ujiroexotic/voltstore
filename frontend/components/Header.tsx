@@ -17,6 +17,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import Link from "next/link";
 
 const Header = () => {
   return (
@@ -25,9 +26,13 @@ const Header = () => {
         <div className="flex h-16 items-center justify-between">
           {/* Logo Start */}
           <div className="flex-1 md:flex md:items-center md:gap-12">
-            <a className="flex items-center text-secondary text-3xl font-semibold hover:opacity-90 transition" href="/">
+            <Image src="/logo.png" alt="Logo" width={100} height={100} />
+            <Link
+              className="flex items-center text-secondary text-3xl font-semibold hover:opacity-90 transition"
+              href="/"
+            >
               <span className="text-primary">VoltStore</span>
-            </a>
+            </Link>
           </div>
           {/* Logo End */}
 
@@ -36,36 +41,36 @@ const Header = () => {
             <nav aria-label="Global" className="hidden md:block">
               <ul className="flex items-center gap-8 text-lg">
                 <li>
-                  <a
+                  <Link
                     className="text-gray-700 transition hover:text-primary"
                     href="/"
                   >
                     Home
-                  </a>
+                  </Link>
                 </li>
                 <li>
-                  <a
+                  <Link
                     className="text-gray-700 transition hover:text-primary"
                     href="/collection"
                   >
                     Collection
-                  </a>
+                  </Link>
                 </li>
                 <li>
-                  <a
+                  <Link
                     className="text-gray-700 transition hover:text-primary"
                     href="/about"
                   >
                     About
-                  </a>
+                  </Link>
                 </li>
                 <li>
-                  <a
+                  <Link
                     className="text-gray-700 transition hover:text-primary"
                     href="/contact"
                   >
                     Contact
-                  </a>
+                  </Link>
                 </li>
               </ul>
             </nav>
@@ -77,9 +82,11 @@ const Header = () => {
               </button>
               <button className="relative text-gray-700 hover:text-primary transition">
                 <ShoppingCart size={24} />
-                <span className="absolute top-0 right-50 inline-flex items-center justify-center w-3 h-3 bg-primary text-white text-xs font-bold rounded-full">3</span>
+                <span className="absolute top-0 right-50 inline-flex items-center justify-center w-3 h-3 bg-primary text-white text-xs font-bold rounded-full">
+                  3
+                </span>
               </button>
-              
+
               {/* Profile Menu */}
               <DropdownMenu>
                 <DropdownMenuTrigger>
@@ -126,24 +133,36 @@ const Header = () => {
                     <nav>
                       <ul className="mt-6 flex flex-col gap-4 text-lg">
                         <li>
-                          <a href="/" className="text-gray-700 hover:text-primary">
+                          <Link
+                            href="/"
+                            className="text-gray-700 hover:text-primary"
+                          >
                             Home
-                          </a>
+                          </Link>
                         </li>
                         <li>
-                          <a href="/collection" className="text-gray-700 hover:text-primary">
+                          <Link
+                            href="/collection"
+                            className="text-gray-700 hover:text-primary"
+                          >
                             Collection
-                          </a>
+                          </Link>
                         </li>
                         <li>
-                          <a href="/about" className="text-gray-700 hover:text-primary">
+                          <Link
+                            href="/about"
+                            className="text-gray-700 hover:text-primary"
+                          >
                             About
-                          </a>
+                          </Link>
                         </li>
                         <li>
-                          <a href="/contact" className="text-gray-700 hover:text-primary">
+                          <Link
+                            href="/contact"
+                            className="text-gray-700 hover:text-primary"
+                          >
                             Contact
-                          </a>
+                          </Link>
                         </li>
                       </ul>
                     </nav>

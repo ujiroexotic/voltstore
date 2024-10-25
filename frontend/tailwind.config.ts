@@ -10,6 +10,9 @@ const config: Config = {
   theme: {
   	extend: {
   		colors: {
+			backgroundImage: {
+				'hero-pattern': "url('https://www.transparenttextures.com/patterns/cubes.png')",
+			  },
   			background: 'hsl(var(--background))',
   			foreground: 'hsl(var(--foreground))',
   			card: {
