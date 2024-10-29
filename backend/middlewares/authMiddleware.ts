@@ -1,7 +1,7 @@
 //This file contains middleware that protect routes by ensuring only authenticated or authorized users can accesss them.
 import { Request, Response, NextFunction } from "express";
 import jwt from 'jsonwebtoken';
-import User from '../models/userModel';
+import User from '../models/user';
 import asyncHandler from "express-async-handler";
 
 //The AuthRequest allow request to attaching a user property to the request object.
@@ -32,3 +32,10 @@ export const protect = asyncHandler(async (req: AuthRequest, res: Response, next
     console.error({message: 'Not authorized, no token'});
   }
 });
+
+export const admin = (req: Request, res: Response, next: NextFunction) => {
+  if (req.user?.role !== 'admin') {
+    return res.status(403).json({ message: 'Access denied: Admins only' });
+  }
+  next();
+};

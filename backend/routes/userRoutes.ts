@@ -1,17 +1,28 @@
-//UserRoutes handle the registering, login requests.
-//Getting user profile data.
-import { registerUser, authUser } from '../controllers/userController';
-import { protect } from '../middleWare/authMiddleware';
 import express from 'express';
+import {
+  registerUser,
+  loginUser,
+  getUserProfile,
+  updateUserProfile,
+  deleteUser,
+} from '../controllers/userController';
+import { authenticateUser } from '../middlewares/auth';
+import { protect } from '../middlewares/authMiddleware';
 
 const router = express.Router();
-//Route for user registration
+
+// Register a new user
 router.post('/register', registerUser);
-//Route for user login
-router.post('/login', authUser);
 
-router.get('/profile', protect, (req, res) => {
-  res.json(req.user);
-}) ;
+// Login a user
+router.post('/login', loginUser);
 
+// Get user profile (protected)
+router.get('/profile', authenticateUser, getUserProfile);
+
+// Update user profile (protected)
+router.put('/profile', authenticateUser, updateUserProfile);
+
+// Route to delete a user (admin only)
+router.delete('/:userId', protect, deleteUser); // Add route to delete user
 export default router;
