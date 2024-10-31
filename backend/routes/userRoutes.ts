@@ -5,6 +5,7 @@ import {
   getUserProfile,
   updateUserProfile,
   deleteUser,
+  logoutUser,
 } from '../controllers/userController';
 import { authenticateUser } from '../middlewares/auth';
 import { protect } from '../middlewares/authMiddleware';
@@ -16,6 +17,22 @@ router.post('/register', registerUser);
 
 // Login a user
 router.post('/login', loginUser);
+
+// Logout a user
+router.get('/logout', logoutUser);
+
+// check if user is admin
+router.get('/checkAdmin', protect, (req, res) => {
+  if (req.user?.role !== 'admin') {
+    return res.status(403).json({ message: 'Access denied: Admins only' });
+  }
+  res.status(201).send('Welcome Admin');
+});
+
+// hell to user 
+router.get('/hello', (req, res) => {
+  res.status(201).send('Hello User');
+});
 
 // Get user profile (protected)
 router.get('/profile', authenticateUser, getUserProfile);

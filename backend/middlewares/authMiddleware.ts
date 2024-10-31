@@ -11,25 +11,20 @@ export interface AuthRequest extends Request {
 
 export const protect = asyncHandler(async (req: AuthRequest, res: Response, next: NextFunction) => {
   let token;
-
-  //The middleware looks for the Token in the Authorization header.
-  if (req.headers.authorization && req.headers.authorization.startsWith('bearer')) {
+console.log('Use Token:')
+console.log(req.cookies.authToken)
+  // Look for the token in the cookies
+  if (req.cookies && req.cookies.authToken) {
+    token = req.cookies.authToken;
     try {
-      //The token is verified using jwt.verify
-      token = req.headers.authorization.split(' ')[1];
       const decoded: any = jwt.verify(token, process.env.JWT_SECRET!);
-
-      req.user = await User.findById(decoded.id).select('-password');
+      req.user = await User.findById(decoded.id).select("-password");
       next();
-    
     } catch (error) {
-      res.status(401);
-      console.error({ message: 'Not authorized, token failed'});
+      res.status(401).json({ message: "Not authorized, token failed" });
     }
-  }
-  if (!token) {
-    res.status(401);
-    console.error({message: 'Not authorized, no token'});
+  } else {
+    res.status(401).json({ message: "Not authorized, no token" });
   }
 });
 

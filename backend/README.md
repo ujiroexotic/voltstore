@@ -87,6 +87,13 @@ The **Order model** tracks customer orders, including order status and history.
 - `updateOrderStatus`
 - `cancelOrder`
 
+
+### 5. ***Category Routes and Controller
+- `GET /api/categories` - Get all categories
+- `POST /api/categories` - Create a new category
+- `GET /api/categories/:id` - Get a category by ID
+- `PUT /api/categories/:id` - Update a category by ID
+- `DELETE /api/categories/:id` - Delete a category by ID
 ---
 
 ## **Summary Table**
