@@ -15,6 +15,7 @@ export const getAllProducts = createAsyncThunk(
       const response = await axios.get(
         `${process.env.REACT_APP_BACKEND_API_URL}/api/products`
       );
+      console.log(response.data);
       return response.data;
     } catch (error) {
       return rejectWithValue(

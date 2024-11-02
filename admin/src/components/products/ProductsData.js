@@ -5,7 +5,7 @@ import {
   MRT_GlobalFilterTextField,
   MRT_ToggleFiltersButton,
 } from "material-react-table";
-import { Box, Button, MenuItem, Typography, lighten } from "@mui/material";
+import { Box, Button, MenuItem, Typography, lighten, IconButton } from "@mui/material";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { useDispatch, useSelector } from "react-redux";
@@ -26,17 +26,42 @@ const ProductDataTable = () => {
     dispatch(getAllProducts());
   }, [dispatch, successDialog]);
 
+  
   const columns = useMemo(
     () => [
       {
-        accessorKey: "name",
-        header: "Name",
+        accessorFn: (row) => row.name,
+        id: "name",
+        header: "Product Name",
         size: 250,
-        Cell: ({ renderedCellValue }) => (
-          <Box sx={{ display: "flex", alignItems: "center", gap: "1rem" }}>
-            <Typography>{renderedCellValue}</Typography>
-          </Box>
-        ),
+        Cell: ({ renderedCellValue, row }) => {
+          const [imageSrc, setImageSrc] = useState(null);
+  
+          useEffect(() => {
+            if (row.original.imageUrls && row.original.imageUrls.length > 0) {
+              const firstImageUrl = `${process.env.REACT_APP_BACKEND_API_URL}${row.original.imageUrls[0]}`;
+              console.log("firstImageUrl: ", firstImageUrl);
+              setImageSrc(firstImageUrl);
+            }
+          }, [row.original.imageUrls]);
+  
+          return (
+            <Box sx={{ display: "flex", alignItems: "center", gap: "1rem" }}>
+              <IconButton>
+                {imageSrc && (
+                  <img
+                    src={imageSrc}
+                    width={50}
+                    height={50}
+                    style={{ borderRadius: "8px" }} // Style the image as you prefer
+                    alt="Product"
+                  />
+                )}
+              </IconButton>
+              <Typography>{renderedCellValue}</Typography>
+            </Box>
+          );
+        },
       },
       {
         accessorKey: "category",
@@ -52,6 +77,7 @@ const ProductDataTable = () => {
     ],
     []
   );
+  
 
   const table = useMaterialReactTable({
     columns,
