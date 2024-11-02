@@ -47,45 +47,45 @@ function App() {
     switch (pathname) {
       case "/":
       case "/dashboard":
-        title = "Dashboard | DocStream";
-        metaDescription = "Welcome to the dashboard of DocStream.";
+        title = "Dashboard | VoltStore";
+        metaDescription = "Welcome to the dashboard of VoltStore.";
         break;
       case "/appointments":
-        title = "Appointments | DocStream";
-        metaDescription = "Manage your appointments in DocStream.";
+        title = "Appointments | VoltStore";
+        metaDescription = "Manage your appointments in VoltStore.";
         break;
       case "/cutomers":
         title = "Customers | VoltStore";
         metaDescription = "Manage Customers in VoltStore.";
         break;
       case "/transactions":
-        title = "Transactions | DocStream";
-        metaDescription = "View and manage transactions in DocStream.";
+        title = "Transactions | VoltStore";
+        metaDescription = "View and manage transactions in VoltStore.";
         break;
       case "/unavailabledates":
-        title = "Unavailable Dates | DocStream";
-        metaDescription = "Manage unavailable dates in DocStream.";
+        title = "Unavailable Dates | VoltStore";
+        metaDescription = "Manage unavailable dates in VoltStore.";
         break;
       case "/admins":
-        title = "Admins | DocStream";
-        metaDescription = "Manage admin users in DocStream.";
+        title = "Admins | VoltStore";
+        metaDescription = "Manage admin users in VoltStore.";
         break;
       case "/departments":
-        title = "Departments | DocStream";
-        metaDescription = "Manage departments in DocStream.";
+        title = "Departments | VoltStore";
+        metaDescription = "Manage departments in VoltStore.";
         break;
       case "/login":
-        title = "Login | DocStream";
-        metaDescription = "Login to your DocStream account.";
+        title = "Login | VoltStore";
+        metaDescription = "Login to your VoltStore account.";
         break;
       case "/signup":
-        title = "Signup | DocStream";
-        metaDescription = "Create a new DocStream account.";
+        title = "Signup | VoltStore";
+        metaDescription = "Create a new VoltStore account.";
         break;
       default:
-        title = "DocStream";
+        title = "VoltStore";
         metaDescription =
-          "Welcome to DocStream, your hospital management solution.";
+          "Welcome to VoltStore, your hospital management solution.";
     }
 
     if (title) {
