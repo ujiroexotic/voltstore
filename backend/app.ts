@@ -23,6 +23,7 @@ connectDB();
 if (process.env.NODE_ENV === "development") {
   app.use(morgan("dev")); // Log requests in development mode
 }
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 // app.use(cors());
 app.use(
   cors({

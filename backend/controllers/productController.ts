@@ -30,16 +30,10 @@ export const createProduct = async (
 ): Promise<void> => {
   const { name, description, price, category, stock } = req.body;
 
-  console.log("file");
-  console.log(req.files);
-
-  // Map the uploaded files to an array of image URLs
+  // Map the uploaded files to an array of image URLs using a relative path
   const imagePaths = Array.isArray(req.files)
-    ? req.files.map((file: Express.Multer.File) => file.path)
+    ? req.files.map((file: Express.Multer.File) => `/uploads/products/${file.filename}`)
     : [];
-
-  console.log("imagePaths");
-  console.log(imagePaths);
 
   // Create the new product with the correct field name for image URLs
   const newProduct: Product = {
@@ -47,12 +41,13 @@ export const createProduct = async (
     description,
     price: parseFloat(price),
     category: category.trim(), // Trim any whitespace
-    stock: parseInt(stock),
+    stock: parseInt(stock, 10), // Use radix to ensure it's a base-10 integer
     imageUrls: imagePaths, // Use the correct field name
-    // createdAt: new Date(),
-    // updatedAt: new Date(),
   };
 
+  console.log("newProduct");
+  console.log(newProduct);
+  
   try {
     // Save the product in the database
     const savedProduct = await Product.create(newProduct);
@@ -62,6 +57,7 @@ export const createProduct = async (
     res.status(500).json({ message: "Server error", error });
   }
 };
+
 
 // Get all products
 export const getAllProducts = async (req: Request, res: Response) => {
