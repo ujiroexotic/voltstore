@@ -35,7 +35,7 @@ function Copyright(props) {
     >
       {"Copyright © "}
       <Link color="inherit" href="/dashboard">
-        DocStream
+        VoltStore
       </Link>{" "}
       {new Date().getFullYear()}
       {"."}
@@ -228,7 +228,7 @@ const NavToolbar = ({ open, toggleDrawer }) => (
           noWrap
           sx={{ flexGrow: 1, fontWeight: "bold", textAlign: "left" }}
         >
-          DocStream
+          VoltStore
         </Typography>
         <IconButton color="inherit">
           <LuSunMoon />
