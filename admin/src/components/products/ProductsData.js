@@ -1,121 +1,53 @@
 import { useEffect, useMemo, useState } from "react";
-
-//MRT Imports
 import {
   MaterialReactTable,
   useMaterialReactTable,
   MRT_GlobalFilterTextField,
   MRT_ToggleFiltersButton,
 } from "material-react-table";
-
-//Material UI Imports
-import {
-  Box,
-  Button,
-  IconButton,
-  ListItemIcon,
-  MenuItem,
-  Typography,
-  lighten,
-} from "@mui/material";
-
-//Date Picker Imports - these should just be in your Context Provider
+import { Box, Button, MenuItem, Typography, lighten } from "@mui/material";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { useDispatch, useSelector } from "react-redux";
 import { openSuccessDialog } from "../../state/dialogSlice";
 import { getAllProducts } from "../../state/productSlice";
+import DeleteForeverRoundedIcon from "@mui/icons-material/DeleteForeverRounded";
+import EditRoundedIcon from "@mui/icons-material/EditRounded";
 
 const ProductDataTable = () => {
   const dispatch = useDispatch();
-  const { successDialog } = useSelector((store) => store.dialog);
-  const { products, isLoading, error } = useSelector((store) => store.products);
+  const { products, isLoading } = useSelector((store) => store.products);
   const data = useMemo(() => products, [products]);
   const [openDialog, setOpenDialog] = useState(false);
-  const [dialogContent, setDialogContent] = useState("");
-  const [currentRow, setCurrentROw] = useState(null);
-  const [change, setChange] = useState(false);
-  const selectedRows = [];
+  const [currentRow, setCurrentRow] = useState(null);
+  const { successDialog } = useSelector((store) => store.dialog);
 
   useEffect(() => {
     dispatch(getAllProducts());
-  }, []);
-
-  const f = new Intl.DateTimeFormat("en-us", {
-    dateStyle: "medium",
-    timeStyle: "short",
-  });
+  }, [dispatch, successDialog]);
 
   const columns = useMemo(
     () => [
       {
-        accessorFn: (row) => `${row.firstName} ${row.lastName}`, //accessorFn used to join multiple data into a single cell
-        id: "name", //id is still required when using accessorFn instead of accessorKey
+        accessorKey: "name",
         header: "Name",
         size: 250,
-        Cell: ({ renderedCellValue, row }) => {
-          const [imageSrc, setImageSrc] = useState(null);
-          useEffect(() => {
-            if (
-              row.original.avatar &&
-              row.original.avatar.data &&
-              row.original.avatar.data.data
-            ) {
-              const blob = new Blob(
-                [Int8Array.from(row.original.avatar.data.data)],
-                {
-                  type: row.original.avatar.contentType,
-                }
-              );
-              const image = window.URL.createObjectURL(blob);
-              setImageSrc(image);
-
-              // Cleanup the object URL when the component unmounts or when the avatar data changes
-              return () => {
-                window.URL.revokeObjectURL(image);
-              };
-            }
-          }, []);
-
-          return (
-            <Box
-              sx={{
-                display: "flex",
-                alignItems: "center",
-                gap: "1rem",
-              }}
-            >
-              {/* <IconButton>
-                {imageSrc && (
-                  <img
-                    src={imageSrc}
-                    width={50}
-                    height={50}
-                    style={{ borderRadius: "50%" }}
-                    alt="Avatar"
-                  />
-                )}
-              </IconButton> */}
-              <Typography>Produt#</Typography>
-              {/* using renderedCellValue instead of cell.getValue() preserves filter match highlighting */}
-              <span>{renderedCellValue}</span>
-            </Box>
-          );
-        },
+        Cell: ({ renderedCellValue }) => (
+          <Box sx={{ display: "flex", alignItems: "center", gap: "1rem" }}>
+            <Typography>{renderedCellValue}</Typography>
+          </Box>
+        ),
       },
       {
-        accessorKey: "category", //accessorKey used to define `data` column. `id` gets set to accessorKey automatically
-        enableClickToCopy: true,
-        filterVariant: "autocomplete",
+        accessorKey: "category",
         header: "Category",
-        size: 300,
+        size: 200,
       },
       {
-        accessorKey: "price", //accessorKey used to define `data` column. `id` gets set to accessorKey automatically
-        enableClickToCopy: true,
-        filterVariant: "autocomplete",
+        accessorKey: "price",
         header: "Price",
-        size: 300,
+        size: 150,
+        Cell: ({ renderedCellValue }) => `$${renderedCellValue.toFixed(2)}`,
       },
     ],
     []
@@ -123,7 +55,7 @@ const ProductDataTable = () => {
 
   const table = useMaterialReactTable({
     columns,
-    data, //data must be memoized or stable (useState, useMemo, defined outside of this component, etc.)
+    data,
     enableColumnFilterModes: true,
     enableColumnOrdering: true,
     enableGrouping: true,
@@ -151,7 +83,7 @@ const ProductDataTable = () => {
       shape: "rounded",
       variant: "outlined",
     },
-    state: { isLoading: isLoading },
+    state: { isLoading },
     muiCircularProgressProps: {
       color: "primary",
       thickness: 5,
@@ -161,33 +93,33 @@ const ProductDataTable = () => {
       animation: "pulse",
       height: 28,
     },
-
-    // renderDetailPanel: ({ row }) => <DoctorDetails row={row} />,
     renderRowActionMenuItems: ({ closeMenu, row }) => [
       <MenuItem
-        key={1}
+        key="edit"
         onClick={() => {
           closeMenu();
+          setCurrentRow(row.original);
+          setOpenDialog(true);
         }}
-        sx={{ m: 0 }}
       >
-        <Button
-          color="error"
-          onClick={() => {
-            setCurrentROw(row.original);
-            setOpenDialog(true);
-          }}
-          variant="contained"
-        >
-          Delete
-        </Button>
+        {/* <Button color="error" variant="contained"> */}
+        <EditRoundedIcon color="info" sx={{ mr: 1 }} />
+        {/* </Button> */}
+      </MenuItem>,
+      <MenuItem
+        key="delete"
+        onClick={() => {
+          closeMenu();
+          setCurrentRow(row.original);
+          setOpenDialog(true);
+        }}
+      >
+        {/* <Button color="error" variant="contained"> */}
+        <DeleteForeverRoundedIcon color="error" sx={{ mr: 1 }} />
+        {/* </Button> */}
       </MenuItem>,
     ],
     renderTopToolbar: ({ table }) => {
-      const handleCloseDialog = () => {
-        setOpenDialog(false);
-      };
-
       return (
         <Box
           sx={(theme) => ({
@@ -199,41 +131,26 @@ const ProductDataTable = () => {
           })}
         >
           <Box sx={{ display: "flex", gap: "0.5rem", alignItems: "center" }}>
-            {/* import MRT sub-components */}
             <MRT_GlobalFilterTextField table={table} />
             <MRT_ToggleFiltersButton table={table} />
           </Box>
-          <Box>
-            <Box sx={{ display: "flex", gap: "0.5rem" }}>
-            <Button
-          sx={{
-            padding: "8px 16px",
-            backgroundColor: "#159eec",
-            color: "#fff",
-            "&:hover": { backgroundColor: "#127abb" },
-          }}
-          variant="outlined"
-          onClick={()=>dispatch(openSuccessDialog())}
-        >
-          Add a Product
-        </Button>
-            </Box>
-          </Box>
-            {/* <DoctorsDialog
-              setChange={setChange}
-              open={openDialog}
-              handleClose={handleCloseDialog}
-              row={currentRow}
-            /> */}
+          <Button
+            sx={{
+              padding: "8px 16px",
+              backgroundColor: "#159eec",
+              color: "#fff",
+              "&:hover": { backgroundColor: "#127abb" },
+            }}
+            onClick={() => dispatch(openSuccessDialog())}
+          >
+            Add a Product
+          </Button>
         </Box>
       );
     },
   });
-  return (
-    <>
-      <MaterialReactTable table={table} />
-    </>
-  );
+
+  return <MaterialReactTable table={table} />;
 };
 
 const ProductDataTableWithLocalizationProvider = () => (
