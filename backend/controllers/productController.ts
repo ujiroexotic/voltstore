@@ -1,6 +1,6 @@
-import { Request, Response } from 'express';
-import { UploadedFile, FileArray } from 'express-fileupload'; // Import the necessary types from express-fileupload
-import Product from '../models/Product'; // Adjust the import according to your file structure
+import { Request, Response } from "express";
+import { UploadedFile, FileArray } from "express-fileupload"; // Import the necessary types from express-fileupload
+import Product from "../models/Product"; // Adjust the import according to your file structure
 
 // Extend the Request interface to include the body and files
 export interface CreateProductRequest extends Request {
@@ -13,50 +13,60 @@ export interface CreateProductRequest extends Request {
   };
   files: FileArray; // Use FileArray type for files
 }
+// Import your Product model if using a database
 
-export const createProduct = async (req: CreateProductRequest, res: Response) => {
+interface Product {
+  name: string;
+  description: string;
+  price: number;
+  category: string;
+  stock: number;
+  imageUrls: string[];
+}
+
+export const createProduct = async (
+  req: Request,
+  res: Response
+): Promise<void> => {
+  const { name, description, price, category, stock } = req.body;
+
+  console.log("file");
+  console.log(req.files);
+
+  // Map the uploaded files to an array of image URLs
+  const imagePaths = Array.isArray(req.files)
+    ? req.files.map((file: Express.Multer.File) => file.path)
+    : [];
+
+  console.log("imagePaths");
+  console.log(imagePaths);
+
+  // Create the new product with the correct field name for image URLs
+  const newProduct: Product = {
+    name,
+    description,
+    price: parseFloat(price),
+    category: category.trim(), // Trim any whitespace
+    stock: parseInt(stock),
+    imageUrls: imagePaths, // Use the correct field name
+    // createdAt: new Date(),
+    // updatedAt: new Date(),
+  };
+
   try {
-    const { name, description, price, category, stock } = req.body;
-
-    // Collect the file paths of the uploaded images
-    const imagePaths: string[] = [];
-
-    // Check if req.files is an array or an object
-    if (Array.isArray(req.files)) {
-      // If it's an array, map through and get the name for each file
-      req.files.forEach((file) => {
-        imagePaths.push(`/uploads/products/${file.name}`);
-      });
-    } else if (typeof req.files === 'object' && req.files !== null) {
-      // If it's a single file, handle it as an object
-      const fileArray = Object.values(req.files); // Get an array of files
-      fileArray.forEach((file) => {
-        imagePaths.push(`/uploads/products/${file.name}`);
-      });
-    }
-
-    const newProduct = new Product({
-      name,
-      description,
-      price,
-      category,
-      stock,
-      images: imagePaths, // assuming `images` is an array in your Product schema
-    });
-
-    const savedProduct = await newProduct.save();
-    res.status(201).json(savedProduct);
+    // Save the product in the database
+    const savedProduct = await Product.create(newProduct);
+    res.status(201).json({ message: "Product created successfully", product: savedProduct });
   } catch (error) {
-    res.status(400).json({ error: error });
+    console.error("Error creating product:", error);
+    res.status(500).json({ message: "Server error", error });
   }
 };
-
-
 
 // Get all products
 export const getAllProducts = async (req: Request, res: Response) => {
   try {
-    const products = await Product.find({});
+    const products = await Product.find({}).sort({ createdAt: -1 });
     res.status(200).json(products);
   } catch (error) {
     res.status(500).json({ message: "Server error" });
@@ -75,7 +85,6 @@ export const getProductById = async (req: Request, res: Response) => {
     res.status(500).json({ message: "Server error" });
   }
 };
-
 
 // Update a product by ID (Admin only)
 export const updateProduct = async (req: Request, res: Response) => {
@@ -105,8 +114,20 @@ export const deleteProduct = async (req: Request, res: Response) => {
     if (!deletedProduct) {
       return res.status(404).json({ message: "Product not found" });
     }
-    res.status(204).send();
+    res.status(204).json({ message: "Product deleted successfully" });
   } catch (error) {
     res.status(500).json({ message: "Server error" });
+  }
+};
+
+// Delete all products (Admin only)
+export const deleteAllProducts = async (req: Request, res: Response) => {
+  try {
+    await Product.deleteMany();
+
+    res.status(200).json({ message: "All products have been deleted." });
+  } catch (error) {
+    console.error("Error deleting all products:", error);
+    res.status(500).json({ message: "An error occurred" });
   }
 };

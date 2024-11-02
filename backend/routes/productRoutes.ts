@@ -6,10 +6,14 @@ import {
   updateProduct,
   deleteProduct,
   CreateProductRequest,
+  deleteAllProducts,
 } from "../controllers/productController";
 import path from "path";
 import fs from "fs";
 import multer from "multer";
+import { uploadProductImages } from "../services/upload";
+import { deleteAllProductImages, deleteProductImages } from "../middlewares/file";
+import { admin, protect } from "../middlewares/authMiddleware";
 
 const router = express.Router();
 
@@ -41,16 +45,17 @@ router.get("/", getAllProducts);
 router.get("/:id", getProductById);
 
 // Route to create a new product
-router.post("/", uploadProduct.array("images", 5), (req, res) => {
-  console.log(req.body);  // Log the form fields
-  console.log(req.files);  // Log the uploaded files
-  createProduct(req as CreateProductRequest, res);
-});
+router.post("/", uploadProductImages.array("imageUrls", 5), // Limit the number of images to 5
+createProduct
+);
 
 // Update a product by ID
 router.put("/:id", updateProduct);
 
-// Delete a product by ID
-router.delete("/:id", deleteProduct);
+// Route to delete a single product
+router.delete("/:id",  deleteProductImages, deleteProduct);
+
+// Route to delete all products
+router.delete("/", deleteAllProductImages, deleteAllProducts);
 
 export default router;
