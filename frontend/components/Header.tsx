@@ -78,12 +78,17 @@ const Header = () => {
               <button className="text-gray-700 hover:text-primary transition">
                 <Search size={24} />
               </button>
-              <button className="relative text-gray-700 hover:text-primary transition">
-                <ShoppingCart size={24} />
-                <span className="absolute top-0 right-50 inline-flex items-center justify-center w-3 h-3 bg-primary text-white text-xs font-bold rounded-full">
-                  3
-                </span>
-              </button>
+              <Link
+                // className="text-gray-700 transition hover:text-primary"
+                href="/cart"
+              >
+                <button className="relative text-gray-700 hover:text-primary transition">
+                  <ShoppingCart size={24} />
+                  <span className="absolute top-0 right-50 inline-flex items-center justify-center w-3 h-3 bg-primary text-white text-xs font-bold rounded-full">
+                    3
+                  </span>
+                </button>
+              </Link>
 
               {/* Profile Menu */}
               <DropdownMenu>
