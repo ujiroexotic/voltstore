@@ -108,7 +108,7 @@ const TableData = () => {
       body: tableData,
     });
 
-    doc.save("DocStream-Transaction-Data.pdf");
+    doc.save("VoltStore-Transaction-Data.pdf");
   };
   const handleExportRows = (rows) => {
     const rowData = rows.map((row) => row.original);

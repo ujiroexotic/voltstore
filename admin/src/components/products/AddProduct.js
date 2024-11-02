@@ -90,7 +90,7 @@ export default function FullScreenDialog() {
 
     try {
       const result = await axios.post(
-        `${process.env.REACT_APP_DOCSTREAM_API_URL}/api/products`,
+        `${process.env.REACT_APP_BACKEND_API_URL}/api/products`,
         formData,
         { headers: { "Content-Type": "multipart/form-data" } }
       );

@@ -67,7 +67,7 @@ export default function FullScreenDialog() {
     }
     console.log("formData", data);
     try {
-      const result = await axios.post( `${process.env.REACT_APP_DOCSTREAM_API_URL}/api/category/`, data);
+      const result = await axios.post( `${process.env.REACT_APP_BACKEND_API_URL}/api/category/`, data);
       console.log(result.data);
       setName("");
       setDescription("");
