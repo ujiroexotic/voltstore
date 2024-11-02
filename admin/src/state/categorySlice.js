@@ -13,7 +13,7 @@ export const getAllCategories = createAsyncThunk(
   async (_, { rejectWithValue }) => {
     try {
       const response = await axios.get(
-        `${process.env.REACT_APP_DOCSTREAM_API_URL}/api/category`
+        `${process.env.REACT_APP_BACKEND_API_URL}/api/category`
       );
       return response.data;
     } catch (error) {
@@ -30,7 +30,7 @@ export const addCategory = createAsyncThunk(
   async (data, { rejectWithValue }) => {
     try {
       const response = await axios.post(
-        `${process.env.REACT_APP_DOCSTREAM_API_URL}/api/category`,
+        `${process.env.REACT_APP_BACKEND_API_URL}/api/category`,
         data
       );
       return response.data;
@@ -48,7 +48,7 @@ export const updateCategory = createAsyncThunk(
   async (data, { rejectWithValue }) => {
     try {
       const response = await axios.put(
-        `${process.env.REACT_APP_DOCSTREAM_API_URL}/api/category/:id`,
+        `${process.env.REACT_APP_BACKEND_API_URL}/api/category/:id`,
         data
       );
       return response.data;
@@ -66,7 +66,7 @@ export const deleteCategory = createAsyncThunk(
   async (id, { rejectWithValue }) => {
     try {
       const response = await axios.delete(
-        `${process.env.REACT_APP_DOCSTREAM_API_URL}/api/category/:id`,
+        `${process.env.REACT_APP_BACKEND_API_URL}/api/category/:id`,
         { data: { id } }
       );
       return response.data;

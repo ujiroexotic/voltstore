@@ -13,7 +13,7 @@ export const getAllAppointments = createAsyncThunk(
   async (_, { rejectWithValue }) => {
     try {
       const response = await axios.get(
-        `${process.env.REACT_APP_DOCSTREAM_API_URL}/appointment/getAll`
+        `${process.env.REACT_APP_BACKEND_API_URL}/appointment/getAll`
       );
       return response.data;
     } catch (error) {
@@ -28,7 +28,7 @@ export const getAllAppointmentsWithInterval = createAsyncThunk(
   async (_, { rejectWithValue }) => {
     try {
       const response = await axios.get(
-        `${process.env.REACT_APP_DOCSTREAM_API_URL}/appointment/getAllAppointmentsWithInterval`
+        `${process.env.REACT_APP_BACKEND_API_URL}/appointment/getAllAppointmentsWithInterval`
       );
       return response.data;
     } catch (error) {

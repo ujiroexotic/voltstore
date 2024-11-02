@@ -13,7 +13,7 @@ export const checkUserStatus = createAsyncThunk(
   async (_, { rejectWithValue }) => {
     try {
       const response = await axios.get(
-        `${process.env.REACT_APP_DOCSTREAM_API_URL}/api/users/checkAdmin`,
+        `${process.env.REACT_APP_BACKEND_API_URL}/api/users/checkAdmin`,
         {
           withCredentials: true, // only needed if cookies are used for auth
         }
@@ -36,7 +36,7 @@ export const login = createAsyncThunk(
   async (data, { rejectWithValue }) => {
     try {
       const result = await axios.post(
-        `${process.env.REACT_APP_DOCSTREAM_API_URL}/api/users/login`,
+        `${process.env.REACT_APP_BACKEND_API_URL}/api/users/login`,
         data,
         {
           withCredentials: true,
@@ -59,7 +59,7 @@ export const logout = createAsyncThunk(
   async (_, { rejectWithValue }) => {
     try {
       const result = await axios.get(
-        `${process.env.REACT_APP_DOCSTREAM_API_URL}/api/users/logout`,
+        `${process.env.REACT_APP_BACKEND_API_URL}/api/users/logout`,
         {
           withCredentials: true,
         }

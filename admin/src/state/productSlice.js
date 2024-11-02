@@ -13,7 +13,7 @@ export const getAllProducts = createAsyncThunk(
   async (_, { rejectWithValue }) => {
     try {
       const response = await axios.get(
-        `${process.env.REACT_APP_DOCSTREAM_API_URL}/api/products`
+        `${process.env.REACT_APP_BACKEND_API_URL}/api/products`
       );
       return response.data;
     } catch (error) {
