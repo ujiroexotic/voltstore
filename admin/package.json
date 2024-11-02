@@ -1,7 +1,7 @@
 {
   "name": "admin",
   "version": "0.1.0",
-  "proxy": "https://docstream-yhox.onrender.com",
+  "proxy": "https://api-voltstore.up.railway.app/",
   "private": true,
   "dependencies": {
     "@date-io/date-fns": "^3.0.0",

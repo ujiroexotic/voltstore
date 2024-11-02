@@ -114,7 +114,7 @@ export default function AlertDialogSlide({ content, selectedRows }) {
 
     try {
       await axios.post(
-        `${process.env.REACT_APP_DOCSTREAM_API_URL}/appointment/approve`,
+        `${process.env.REACT_APP_BACKEND_API_URL}/appointment/approve`,
         approvalData
       );
       setIsContact(false);
@@ -155,7 +155,7 @@ export default function AlertDialogSlide({ content, selectedRows }) {
     };
     try {
       await axios.post(
-        `${process.env.REACT_APP_DOCSTREAM_API_URL}/appointment/contact`,
+        `${process.env.REACT_APP_BACKEND_API_URL}/appointment/contact`,
         data
       );
       setIsContact(true);
@@ -403,7 +403,7 @@ export default function AlertDialogSlide({ content, selectedRows }) {
                 onClick={async () => {
                   try {
                     await axios.post(
-                      `${process.env.REACT_APP_DOCSTREAM_API_URL}/appointment/suspend`,
+                      `${process.env.REACT_APP_BACKEND_API_URL}/appointment/suspend`,
                       currentAppointment
                     );
                     dispatch(getAllAppointments());
