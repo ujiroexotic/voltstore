@@ -7,7 +7,6 @@ import {
   deleteUser,
   logoutUser,
 } from '../controllers/userController';
-import { authenticateUser } from '../middlewares/auth';
 import { protect } from '../middlewares/authMiddleware';
 
 const router = express.Router();
@@ -35,10 +34,10 @@ router.get('/hello', (req, res) => {
 });
 
 // Get user profile (protected)
-router.get('/profile', authenticateUser, getUserProfile);
+router.get('/profile', protect, getUserProfile);
 
 // Update user profile (protected)
-router.put('/profile', authenticateUser, updateUserProfile);
+router.put('/profile', protect, updateUserProfile);
 
 // Route to delete a user (admin only)
 router.delete('/:userId', protect, deleteUser); // Add route to delete user

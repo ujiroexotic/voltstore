@@ -8,12 +8,11 @@ import userRoutes from "./routes/userRoutes";
 import cartRoutes from "./routes/cartRoutes";
 import orderRoutes from "./routes/orderRoutes";
 import categoryRoutes from "./routes/categoryRoutes";
-import { authenticateUser } from "./middlewares/auth";
 import { errorHandler, notFound } from "./middlewares/errorMiddleware";
-import { authorizeAdmin } from "./middlewares/authorize";
 import { requestLogger } from "./middlewares/logger";
 import cors from "cors";
 import cookieParser from "cookie-parser";
+import { admin, protect } from "./middlewares/authMiddleware";
 dotenv.config();
 const app: Application = express();
 
@@ -60,8 +59,8 @@ app.use("/api/category", categoryRoutes)
 // Admin-only route (example)
 app.use(
   "/api/admin",
-  authenticateUser,
-  authorizeAdmin,
+  protect,
+  admin,
   (req: Request, res: Response) => {
     res.send("Welcome Admin");
   }

@@ -6,11 +6,11 @@ import {
   removeFromCart,
   clearCart,
 } from '../controllers/cartController';
-import { authenticateUser } from '../middlewares/auth';
+import { protect } from '../middlewares/authMiddleware';
 
 const router = express.Router();
 
 // Get cart items (protected)
-router.get('/login', authenticateUser, getCartItems);
+router.get('/login', protect, getCartItems);
 
 export default router;
