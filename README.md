@@ -452,5 +452,23 @@ Conclusion
 Thank you for considering contributing to our project! Your contributions help improve the project for everyone. Please follow the above guidelines to ensure a smooth collaboration. We look forward to your input!
 
 ## License
+Copyright © 2024 Voltstore
 
 ## Contact
+For questions, please contact:
+
+Name: Ibnu Jabir Kedir 
+Email: kedirjabir12@gmail.com
+Github: @IbnuJabir
+
+Name: David Agbaniyaka 
+Email: fiyin.agba@gmail.com
+Github: @agbaniongithub
+
+Name: Orion Dooms 
+Email: dexter45.od@gmail.com
+Github: @OrionDooms
+
+Name: Ujiro Eruteya 
+Email: ujiroeruteya@gmail.com
+Github: @ujiroexotic
