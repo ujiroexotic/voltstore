@@ -5,7 +5,14 @@ import {
   MRT_GlobalFilterTextField,
   MRT_ToggleFiltersButton,
 } from "material-react-table";
-import { Box, Button, MenuItem, Typography, lighten, IconButton } from "@mui/material";
+import {
+  Box,
+  Button,
+  MenuItem,
+  Typography,
+  lighten,
+  IconButton,
+} from "@mui/material";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { useDispatch, useSelector } from "react-redux";
@@ -26,7 +33,11 @@ const ProductDataTable = () => {
     dispatch(getAllProducts());
   }, [dispatch, successDialog]);
 
-  
+  const f = new Intl.DateTimeFormat("en-us", {
+    dateStyle: "short",
+    timeStyle: "short",
+  });
+
   const columns = useMemo(
     () => [
       {
@@ -36,7 +47,7 @@ const ProductDataTable = () => {
         size: 250,
         Cell: ({ renderedCellValue, row }) => {
           const [imageSrc, setImageSrc] = useState(null);
-  
+
           useEffect(() => {
             if (row.original.imageUrls && row.original.imageUrls.length > 0) {
               const firstImageUrl = `${process.env.REACT_APP_BACKEND_API_URL}${row.original.imageUrls[0]}`;
@@ -44,7 +55,7 @@ const ProductDataTable = () => {
               setImageSrc(firstImageUrl);
             }
           }, [row.original.imageUrls]);
-  
+
           return (
             <Box sx={{ display: "flex", alignItems: "center", gap: "1rem" }}>
               <IconButton>
@@ -69,15 +80,39 @@ const ProductDataTable = () => {
         size: 200,
       },
       {
+        accessorKey: "description",
+        header: "Description",
+        size: 500,
+      },
+      {
         accessorKey: "price",
         header: "Price",
         size: 150,
         Cell: ({ renderedCellValue }) => `$${renderedCellValue.toFixed(2)}`,
       },
+      {
+        accessorKey: "stock",
+        header: "Stock",
+        size: 150,
+      },
+      {
+        accessorFn: (row) => new Date(row.createdAt), //convert to Date for sorting and filtering
+        id: "createdAt",
+        header: "Created Date",
+        filterVariant: "date",
+        filterFn: "lessThan",
+        sortingFn: "datetime",
+        Cell: ({ cell }) => cell.getValue()?.toLocaleDateString(), //render Date as a string
+        Header: ({ column }) => <em>{column.columnDef.header}</em>, //custom header markup
+        muiFilterTextFieldProps: {
+          sx: {
+            minWidth: "250px",
+          },
+        },
+      },
     ],
     []
   );
-  
 
   const table = useMaterialReactTable({
     columns,
@@ -128,9 +163,8 @@ const ProductDataTable = () => {
           setOpenDialog(true);
         }}
       >
-        {/* <Button color="error" variant="contained"> */}
         <EditRoundedIcon color="info" sx={{ mr: 1 }} />
-        {/* </Button> */}
+        Edit
       </MenuItem>,
       <MenuItem
         key="delete"
@@ -140,9 +174,8 @@ const ProductDataTable = () => {
           setOpenDialog(true);
         }}
       >
-        {/* <Button color="error" variant="contained"> */}
         <DeleteForeverRoundedIcon color="error" sx={{ mr: 1 }} />
-        {/* </Button> */}
+        Delete
       </MenuItem>,
     ],
     renderTopToolbar: ({ table }) => {
