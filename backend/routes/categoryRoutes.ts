@@ -6,6 +6,7 @@ import {
   updateCategory,
   deleteCategory,
 } from '../controllers/categoryController';
+import { uploadCategoryImages } from '../services/upload';
 
 const router = express.Router();
 
@@ -13,7 +14,7 @@ const router = express.Router();
 router.get('/', getAllCategories);
 
 // Route to create a new category
-router.post('/', createCategory);
+router.post('/', uploadCategoryImages.single("imageUrl"), createCategory);
 
 // Route to get a single category by ID
 router.get('/:id', getCategoryById);

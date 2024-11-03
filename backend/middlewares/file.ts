@@ -2,6 +2,7 @@ import { Request, Response, NextFunction } from "express";
 import Product from "../models/Product";
 import path from "path";
 import fs from "fs/promises"; // Only import fs/promises once
+import Category from "../models/category";
 
 export const deleteProductImages = async (
   req: Request,
@@ -80,5 +81,29 @@ export const deleteAllProductImages = async (
   } catch (error) {
     console.error("Error in deleteAllProductImages middleware:", error);
     res.status(500).json({ message: error || "An error occurred while deleting all images" });
+  }
+};
+
+export const deleteCategoryImage = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const category = await Category.findById(req.params.id);
+
+    if (!category) {
+      return res.status(404).json({ message: "Category not found" });
+    }
+
+    const imagePath = path.join(__dirname, "..", category.imageUrl);
+
+    await fs.unlink(imagePath);
+
+    console.log(`Deleted image for category ${req.params.id}`);
+    next();
+  } catch (error) {
+    console.error("Error in deleteCategoryImage middleware:", error);
+    res.status(500).json({ message: "An error occurred while deleting the image" });
   }
 };

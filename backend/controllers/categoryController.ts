@@ -14,16 +14,33 @@ export const getAllCategories = async (req: Request, res: Response) => {
 // Create a new category
 export const createCategory = async (req: Request, res: Response) => {
   const { name, description } = req.body;
-  console.log('req.body', req.body)
+
+  // Check for missing fields
+  if (!name || !description) {
+    return res.status(400).json({ message: 'Name and description are required' });
+  }
+
+  // Check if the file is uploaded successfully
+  if (!req.file) {
+    return res.status(400).json({ message: 'Image file is required' });
+  }
+
+  const newCategory = {
+    name,
+    description,
+    imageUrl: `/uploads/categories/${req.file.filename}`,
+  };
+
   try {
-    const category = new Category({ name, description });
+    const category = new Category(newCategory);
     await category.save();
     res.status(201).json(category);
   } catch (error) {
-    console.log(error)
+    console.error(error);
     res.status(500).json({ message: 'Error creating category', error });
   }
 };
+
 
 // Get a single category by ID
 export const getCategoryById = async (req: Request, res: Response) => {
