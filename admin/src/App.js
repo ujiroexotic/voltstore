@@ -23,6 +23,7 @@ import { useDispatch, useSelector } from "react-redux";
 import Customers from "./components/customers/Customers";
 import Products from "./components/products/Products";
 import Orders from "./components/orders/Orders";
+import Category from "./components/category/Category";
 
 function App() {
   const navigate = useNavigate();
@@ -114,6 +115,7 @@ function App() {
             <Route path="appointments" element={<Appointments />} />
             <Route path="doctors" element={<Doctors />} />
             <Route path="customers" element={<Customers />} />
+            <Route path="categories" element={<Category />} />
             <Route path="orders" element={<Orders />} />
             <Route path="products" element={<Products />} />
             <Route path="transactions" element={<Transactions />} />
