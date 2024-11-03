@@ -1,3 +1,5 @@
+'use client'
+
 import { Search, ShoppingCart } from "lucide-react";
 import {
   Sheet,
@@ -17,8 +19,11 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import Link from "next/link";
+import { useCart } from "../components/CartContext"; // Import the useCart hook
 
 const Header = () => {
+  const { getCartItemCount } = useCart(); // Get cart count from context
+
   return (
     <header className="bg-background sticky top-0 z-50 shadow-lg">
       <div className="mx-auto max-w-screen-xl px-4 sm:px-6 lg:px-8">
@@ -78,15 +83,14 @@ const Header = () => {
               <button className="text-gray-700 hover:text-primary transition">
                 <Search size={24} />
               </button>
-              <Link
-                // className="text-gray-700 transition hover:text-primary"
-                href="/cart"
-              >
+              <Link href="/cart">
                 <button className="relative text-gray-700 hover:text-primary transition">
                   <ShoppingCart size={24} />
-                  <span className="absolute top-0 right-50 inline-flex items-center justify-center w-3 h-3 bg-primary text-white text-xs font-bold rounded-full">
-                    3
-                  </span>
+                  {getCartItemCount() > 0 && (
+                    <span className="absolute -top-2 -right-2 inline-flex items-center justify-center w-4 h-4 bg-primary text-white text-xs font-bold rounded-full">
+                      {getCartItemCount()}
+                    </span>
+                  )}
                 </button>
               </Link>
 
