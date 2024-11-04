@@ -1,4 +1,4 @@
-'use client'
+"use client";
 
 import { Search, ShoppingCart } from "lucide-react";
 import {
@@ -20,28 +20,29 @@ import {
 } from "@/components/ui/dropdown-menu";
 import Link from "next/link";
 import { useCart } from "../components/CartContext"; // Import the useCart hook
+import { useAuth } from "@/context/AuthContext";
+import { Button } from "./ui/button";
 
 const Header = () => {
   const { getCartItemCount } = useCart(); // Get cart count from context
+  const { user, logout } = useAuth();
 
   return (
     <header className="bg-background sticky top-0 z-50 shadow-lg">
       <div className="mx-auto max-w-screen-xl px-4 sm:px-6 lg:px-8">
-        <div className="flex h-16 items-center justify-between">
+        <div className="flex h-16 items-center justify-between max-w-screen overflow-hidden">
           {/* Logo Start */}
-          <div className="flex-1 md:flex md:items-center md:gap-12">
             <Link
-              className="flex items-center text-secondary text-3xl font-semibold hover:opacity-90 transition"
+              className="flex items-center text-secondary text-2xl md:text-3xl font-semibold hover:opacity-90 transition"
               href="/"
             >
               <span className="text-primary">VoltStore</span>
             </Link>
-          </div>
           {/* Logo End */}
 
           <div className="flex items-center gap-6">
             {/* Nav Links Start */}
-            <nav aria-label="Global" className="hidden md:block">
+            <nav aria-label="Global" className="hidden md:flex">
               <ul className="flex items-center gap-8 text-lg">
                 <li>
                   <Link
@@ -79,13 +80,10 @@ const Header = () => {
             </nav>
             {/* Nav Links End */}
 
-            <div className="flex gap-6 items-center">
-              <button className="text-gray-700 hover:text-primary transition">
-                <Search size={24} />
-              </button>
+            <div className="flex gap-3 items-center">
               <Link href="/cart">
                 <button className="relative text-gray-700 hover:text-primary transition">
-                  <ShoppingCart size={24} />
+                  <ShoppingCart size={20} />
                   {getCartItemCount() > 0 && (
                     <span className="absolute -top-2 -right-2 inline-flex items-center justify-center w-4 h-4 bg-primary text-white text-xs font-bold rounded-full">
                       {getCartItemCount()}
@@ -95,7 +93,10 @@ const Header = () => {
               </Link>
 
               {/* Profile Menu */}
-              <DropdownMenu>
+
+              {user ? (
+              <>
+                <DropdownMenu>
                 <DropdownMenuTrigger>
                   <Avatar className="w-10 h-10">
                     <AvatarImage src="https://github.com/shadcn.png" />
@@ -110,12 +111,24 @@ const Header = () => {
                   <DropdownMenuItem>Logout</DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>
+                <button onClick={logout} className="text-gray-700">Logout</button>
+                {/* Show user's name */}
+                <div className="ml-2 text-gray-700">{user.name}</div>
+              </>
+            ) : (
+              <>
+                <Link href="/login" className="text-background"><Button>Login</Button></Link>
+                <Link href="/register" className="text-background"><Button>Sign Up</Button></Link>
+              </>
+            )}
+
+              
 
               {/* Mobile Menu Toggle */}
-              <div className="block md:hidden">
+              <div className="flex md:hidden">
                 <Sheet>
                   <SheetTrigger>
-                    <div className="rounded bg-gray-100 p-2 text-gray-600 transition hover:text-gray-600/75">
+                    <div className="rounded bg-primary p-2 text-background transition hover:text-gray-600/75">
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         className="h-6 w-6"

@@ -8,7 +8,7 @@ type CartItem = {
   name: string;
   price: any;
   quantity: number;
-  // Add other properties like price, name, etc., if needed
+  imageUrls: string;
 };
 
 type CartContextType = {
@@ -28,10 +28,12 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
     setCartItems((prevItems) => {
       const existingItem = prevItems.find((i) => i._id === item._id);
       if (existingItem) {
+        console.log(`Updated ${existingItem.name} quantity to ${existingItem.quantity + item.quantity}`);
         return prevItems.map((i) =>
           i._id === item._id ? { ...i, quantity: i.quantity + item.quantity } : i
         );
       }
+      console.log(`Added ${item.quantity} of ${item.name} to the cart`);
       return [...prevItems, item];
     });
   };
