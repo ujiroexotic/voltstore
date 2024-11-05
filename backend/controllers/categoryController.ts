@@ -17,27 +17,27 @@ export const createCategory = async (req: Request, res: Response) => {
 
   // Check for missing fields
   if (!name || !description) {
-    return res.status(400).json({ message: 'Name and description are required' });
+    return res.status(400).json({ message: "Name and description are required" });
   }
 
-  // Check if the file is uploaded successfully
+  // Ensure the file is uploaded
   if (!req.file) {
-    return res.status(400).json({ message: 'Image file is required' });
+    return res.status(400).json({ message: "Image file is required" });
   }
 
-  const newCategory = {
+  // Create the new category with image data as Buffer
+  const newCategory = new Category({
     name,
     description,
-    imageUrl: `/uploads/categories/${req.file.filename}`,
-  };
+    imageUrl: req.file.buffer, // Store the binary data in imageUrl
+  });
 
   try {
-    const category = new Category(newCategory);
-    await category.save();
-    res.status(201).json(category);
+    await newCategory.save();
+    res.status(201).json({ message: "Category created successfully", category: newCategory });
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: 'Error creating category', error });
+    console.error("Error creating category:", error);
+    res.status(500).json({ message: "Error creating category", error });
   }
 };
 
