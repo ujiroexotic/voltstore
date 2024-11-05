@@ -18,7 +18,7 @@ const productSchema = new Schema<IProduct>(
     price: { type: Number, required: true },
     category: { type: String, required: true },
     stock: { type: Number, required: true },
-    imageUrls: [{ type: String, required: true }],
+    imageUrls: [{ type: Buffer, required: true }], // Now each image is stored as binary data
   },
   { timestamps: true }
 );

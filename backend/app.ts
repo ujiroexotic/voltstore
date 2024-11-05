@@ -13,6 +13,7 @@ import { requestLogger } from "./middlewares/logger";
 import cors from "cors";
 import cookieParser from "cookie-parser";
 import { admin, protect } from "./middlewares/authMiddleware";
+import fileUpload from "express-fileupload";
 dotenv.config();
 const app: Application = express();
 
@@ -26,8 +27,6 @@ if (process.env.NODE_ENV === "development") {
 
 app.use('/uploads', express.static(path.join('/app/uploads')));
 
-// app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
-// app.use(cors());
 app.use(
   cors({
     origin: [
@@ -40,7 +39,7 @@ app.use(
     credentials: true,
   })
 );
-
+app.use(fileUpload());
 app.use(cookieParser());
 app.use(express.json()); // Parse incoming JSON requests
 app.use(express.urlencoded({ extended: true })); // Parse URL-encoded requests

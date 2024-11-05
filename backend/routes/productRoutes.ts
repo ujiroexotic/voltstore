@@ -12,7 +12,10 @@ import path from "path";
 import fs from "fs";
 import multer from "multer";
 import { uploadProductImages } from "../services/upload";
-import { deleteAllProductImages, deleteProductImages } from "../middlewares/file";
+import {
+  deleteAllProductImages,
+  deleteProductImages,
+} from "../middlewares/file";
 import { admin, protect } from "../middlewares/authMiddleware";
 
 const router = express.Router();
@@ -45,15 +48,13 @@ router.get("/", getAllProducts);
 router.get("/:id", getProductById);
 
 // Route to create a new product
-router.post("/", uploadProductImages.array("imageUrls", 5), // Limit the number of images to 5
-createProduct
-);
+router.post("/", createProduct);
 
 // Update a product by ID
 router.put("/:id", updateProduct);
 
 // Route to delete a single product
-router.delete("/:id",  deleteProductImages, deleteProduct);
+router.delete("/:id", deleteProductImages, deleteProduct);
 
 // Route to delete all products
 router.delete("/", deleteAllProductImages, deleteAllProducts);

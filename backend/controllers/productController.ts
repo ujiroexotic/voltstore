@@ -23,34 +23,32 @@ interface Product {
   stock: number;
   imageUrls: string[];
 }
-
 export const createProduct = async (
   req: Request,
   res: Response
 ): Promise<void> => {
   const { name, description, price, category, stock } = req.body;
 
-  // Map the uploaded files to an array of image URLs using a relative path
-  const imagePaths = Array.isArray(req.files)
-    ? req.files.map((file: Express.Multer.File) => `/uploads/products/${file.filename}`)
+  // Ensure images are saved as Buffers
+  const imageBuffers = req.files
+    ? (Array.isArray(req.files.imageUrls)
+        ? req.files.imageUrls
+        : [req.files.imageUrls]
+      ).map((file: UploadedFile) => file.data) // Access the binary data of each image file
     : [];
 
-  // Create the new product with the correct field name for image URLs
-  const newProduct: Product = {
+  // Create the new product with image Buffers
+  const newProduct = new Product({
     name,
     description,
     price: parseFloat(price),
-    category: category.trim(), // Trim any whitespace
-    stock: parseInt(stock, 10), // Use radix to ensure it's a base-10 integer
-    imageUrls: imagePaths, // Use the correct field name
-  };
+    category: category.trim(),
+    stock: parseInt(stock, 10),
+    imageUrls: imageBuffers, // Save the images as Buffers
+  });
 
-  console.log("newProduct");
-  console.log(newProduct);
-  
   try {
-    // Save the product in the database
-    const savedProduct = await Product.create(newProduct);
+    const savedProduct = await newProduct.save();
     res.status(201).json({ message: "Product created successfully", product: savedProduct });
   } catch (error) {
     console.error("Error creating product:", error);
