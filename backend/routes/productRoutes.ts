@@ -54,9 +54,9 @@ router.post("/", createProduct);
 router.put("/:id", updateProduct);
 
 // Route to delete a single product
-router.delete("/:id", deleteProductImages, deleteProduct);
+router.delete("/:id", deleteProduct);
 
 // Route to delete all products
-router.delete("/", deleteAllProductImages, deleteAllProducts);
+router.delete("/", deleteAllProducts);
 
 export default router;
