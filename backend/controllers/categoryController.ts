@@ -1,5 +1,6 @@
-import { Request, Response } from 'express';
-import Category from '../models/category';
+import { Request, Response } from "express";
+import Category from "../models/category";
+import fs from "fs/promises";
 
 // Get all categories
 export const getAllCategories = async (req: Request, res: Response) => {
@@ -7,7 +8,7 @@ export const getAllCategories = async (req: Request, res: Response) => {
     const categories = await Category.find();
     res.status(200).json(categories);
   } catch (error) {
-    res.status(500).json({ message: 'Error fetching categories', error });
+    res.status(500).json({ message: "Error fetching categories", error });
   }
 };
 
@@ -20,8 +21,21 @@ export const createCategory = async (req: Request, res: Response) => {
     return res.status(400).json({ message: "Name and description are required" });
   }
 
-  // Ensure the file is uploaded
-  if (!req.file) {
+  let imageUrl = null;
+  if (req.file) {
+    const filePath = req.file.path;
+    try {
+      const data = await fs.readFile(filePath); // Using async readFile
+      imageUrl = {
+        data,
+        contentType: req.file.mimetype,
+      };
+    } catch (error) {
+      console.error("Error reading file:", error);
+      return res.status(500).json({ message: "Error reading image file", error });
+    }
+  } else {
+    console.log("image file not found");
     return res.status(400).json({ message: "Image file is required" });
   }
 
@@ -29,12 +43,15 @@ export const createCategory = async (req: Request, res: Response) => {
   const newCategory = new Category({
     name,
     description,
-    imageUrl: req.file.buffer, // Store the binary data in imageUrl
+    imageUrl: imageUrl,
   });
 
   try {
     await newCategory.save();
-    res.status(201).json({ message: "Category created successfully", category: newCategory });
+    res.status(201).json({
+      message: "Category created successfully",
+      category: newCategory,
+    });
   } catch (error) {
     console.error("Error creating category:", error);
     res.status(500).json({ message: "Error creating category", error });
@@ -49,10 +66,10 @@ export const getCategoryById = async (req: Request, res: Response) => {
     if (category) {
       res.status(200).json(category);
     } else {
-      res.status(404).json({ message: 'Category not found' });
+      res.status(404).json({ message: "Category not found" });
     }
   } catch (error) {
-    res.status(500).json({ message: 'Error fetching category', error });
+    res.status(500).json({ message: "Error fetching category", error });
   }
 };
 
@@ -68,10 +85,10 @@ export const updateCategory = async (req: Request, res: Response) => {
     if (category) {
       res.status(200).json(category);
     } else {
-      res.status(404).json({ message: 'Category not found' });
+      res.status(404).json({ message: "Category not found" });
     }
   } catch (error) {
-    res.status(500).json({ message: 'Error updating category', error });
+    res.status(500).json({ message: "Error updating category", error });
   }
 };
 
@@ -80,11 +97,11 @@ export const deleteCategory = async (req: Request, res: Response) => {
   try {
     const category = await Category.findByIdAndDelete(req.params.id);
     if (category) {
-      res.status(200).json({ message: 'Category deleted successfully' });
+      res.status(200).json({ message: "Category deleted successfully" });
     } else {
-      res.status(404).json({ message: 'Category not found' });
+      res.status(404).json({ message: "Category not found" });
     }
   } catch (error) {
-    res.status(500).json({ message: 'Error deleting category', error });
+    res.status(500).json({ message: "Error deleting category", error });
   }
 };
