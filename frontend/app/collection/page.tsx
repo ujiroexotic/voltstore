@@ -29,9 +29,10 @@ const CollectionPage = () => {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const response = await fetch("http://localhost:5000/api/products");
+        const response = await fetch(
+          `${process.env.NEXT_PUBLIC_API_URL}/api/products`
+        );
         if (!response.ok) throw new Error("Failed to fetch products.");
-        
         const data = await response.json();
         setProducts(data);
       } catch (error: any) {
@@ -46,10 +47,9 @@ const CollectionPage = () => {
 
   return (
     <div className="bg-gradient-to-r from-blue-500 via-purple-600 to-pink-500 text-gray-900 min-h-screen">
-      <nav className="text-white text-sm mb-4 px-6">
-        <Link href="/">Home</Link> / <span>Collection</span>
-      </nav>
-      <h1 className="text-center text-4xl font-bold text-white py-10">Our Collection</h1>
+      <h1 className="text-center text-4xl font-bold text-white py-10">
+        Our Collection
+      </h1>
 
       {isLoading && (
         <div className="flex justify-center items-center text-white py-20">
@@ -57,17 +57,21 @@ const CollectionPage = () => {
         </div>
       )}
 
-      {error && (
-        <p className="text-center text-red-400">{error}</p>
-      )}
+      {error && <p className="text-center text-red-400">{error}</p>}
 
       {!isLoading && !error && (
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 px-6 pb-16">
           {products.map((product) => (
-            <div key={product._id} className="group rounded-lg overflow-hidden shadow-lg transform transition-all duration-300 hover:scale-105 bg-white">
-              <Link href={`/collection/${product._id}`} className="relative w-full h-64 block">
+            <div
+              key={product._id}
+              className="group rounded-lg overflow-hidden shadow-lg transform transition-all duration-300 hover:scale-105 bg-white"
+            >
+              <Link
+                href={`/collection/${product._id}`}
+                className="relative w-full h-64 block"
+              >
                 <Image
-                  src={product.imageUrls[2] || "/fallback-image.jpg"}
+                  src={product.imageUrls[2]}
                   alt={product.name}
                   layout="fill"
                   objectFit="cover"
@@ -75,20 +79,30 @@ const CollectionPage = () => {
                 />
               </Link>
               <div className="p-4 text-center">
-                <h2 className="text-lg font-semibold text-gray-800 truncate max-w-full" title={product.description}>
+                <h2
+                  className="text-lg font-semibold text-gray-800 truncate max-w-full"
+                  title={product.description}
+                >
                   {product.name}
                 </h2>
-                <p className="text-gray-600 mt-1">${product.price.toFixed(2)}</p>
-                <p className={`text-sm ${product.stock > 0 ? "text-green-500" : "text-red-500"} mt-1`}>
+                <p className="text-gray-600 mt-1">
+                  ${product.price.toFixed(2)}
+                </p>
+                <p
+                  className={`text-sm ${
+                    product.stock > 0 ? "text-green-500" : "text-red-500"
+                  } mt-1`}
+                >
                   {product.stock > 0 ? "In Stock" : "Out of Stock"}
                 </p>
                 <Button
                   onClick={() =>
                     addToCart({
-                      id: product._id,
+                      _id: product._id,
                       quantity: 1,
-                      name: "",
-                      price: undefined
+                      name: product.name,
+                      price: product.price,
+                      imageUrls: product.imageUrls[0]
                     })
                   }
                   className="mt-4 w-full flex items-center justify-center bg-primary text-white hover:bg-primary/80 transition-all duration-300 transform hover:scale-105"

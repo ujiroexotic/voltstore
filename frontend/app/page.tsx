@@ -27,7 +27,9 @@ const HomePage: React.FC = () => {
       <section className="flex flex-col items-center justify-center text-center py-20 px-4 bg-cover bg-center">
         <h1 className="text-5xl font-bold text-white leading-tight">
           Discover Premium Products <br /> At Unbeatable Prices
+          <p>Only At <span className="text-primary">VoltStore</span></p>
         </h1>
+        
         <p className="mt-4 text-lg text-gray-200 max-w-lg mx-auto">
           Upgrade your lifestyle with exclusive items curated just for you.
         </p>
@@ -90,7 +92,8 @@ const HomePage: React.FC = () => {
                         _id: product._id,
                         quantity: 1,
                         name: product.name,
-                        price: product.price
+                        price: product.price,
+                        imageUrls: product.imageUrls[1]
                       })
                     }
                     className="mt-4 w-full flex items-center justify-center bg-primary text-white hover:bg-primary/80 transition-all duration-300 transform hover:scale-105"
