@@ -8,36 +8,18 @@ import { Button } from "@/components/ui/button";
 import { useGetProductsQuery } from "@/redux/slices/productsApiSlice";
 import { useCart } from "@/components/CartContext"; // Adjust the import path as needed
 
-const HomePage = () => {
-  type Product = {
-    _id: string;
-    name: string;
-    description: string;
-    price: number;
-    image: string;
-    category: string;
-    stock: number;
-    createdAt: string;
-    updatedAt: string;
-    imageUrls: string[];
-  };
+// Define the product type based on API response
+interface Product {
+  _id: string;
+  name: string;
+  description: string;
+  price: number;
+  imageUrls: string[];
+}
 
-  const { addToCart, getCartItemCount } = useCart();
-
-  const [products, setProducts] = useState<Product[]>([]);
-  useEffect(() => {
-    const fetchProducts = async () => {
-      try {
-        const response = await fetch("http://localhost:5000/api/products");
-        const data = await response.json();
-        console.log(data);
-        setProducts(data);
-      } catch (error) {
-        console.error("Error fetching products:", error);
-      }
-    };
-    fetchProducts();
-  }, []);
+const HomePage: React.FC = () => {
+  const { addToCart } = useCart();
+  const { data: products = [], error, isLoading } = useGetProductsQuery();
 
   return (
     <div className="bg-gradient-to-r from-blue-500 via-purple-600 to-pink-500 bg-background text-gray-900 min-h-screen">
@@ -62,20 +44,34 @@ const HomePage = () => {
           Featured Products
         </h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-12">
-          {products.length > 0 ? (
-            products.map((product) => (
+          {isLoading ? (
+            <p className="text-center text-lg text-gray-200">
+              Loading products...
+            </p>
+          ) : error ? (
+            <p className="text-center text-lg text-gray-200">
+              Error loading products.
+            </p>
+          ) : (
+            products.map((product: Product) => (
               <div
                 key={product._id}
                 className="group rounded-lg overflow-hidden shadow-lg transform transition-all duration-300 hover:shadow-2xl hover:scale-105"
               >
                 <div className="relative">
-                  <Image
-                    src={product.imageUrls[2]}
-                    alt={product.name}
-                    width={400}
-                    height={400}
-                    className="w-full h-auto transition-transform duration-300 group-hover:scale-110"
-                  />
+                  {product.imageUrls[2] ? (
+                    <Image
+                      src={product.imageUrls[2]}
+                      alt={product.name}
+                      width={400}
+                      height={400}
+                      className="w-full h-auto transition-transform duration-300 group-hover:scale-110"
+                    />
+                  ) : (
+                    <div className="w-full h-[400px] bg-gray-300 flex items-center justify-center">
+                      <p className="text-gray-500">Image not available</p>
+                    </div>
+                  )}
                   <div className="absolute inset-0 bg-black bg-opacity-30 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                 </div>
                 <div className="p-4 bg-white">
@@ -104,10 +100,6 @@ const HomePage = () => {
                 </div>
               </div>
             ))
-          ) : (
-            <p className="text-center text-lg text-gray-200">
-              Loading products...
-            </p>
           )}
         </div>
       </section>
