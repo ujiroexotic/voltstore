@@ -8,5 +8,10 @@ export type Product = {
   stock: number;
   createdAt: string;
   updatedAt: string;
-  imageUrls: string[];
+  imageUrls: [
+    {
+      data: Buffer;
+      type: string;
+    } 
+  ];
 };
