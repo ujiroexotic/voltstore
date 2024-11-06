@@ -18,32 +18,29 @@ export const createCategory = async (req: Request, res: Response) => {
 
   // Check for missing fields
   if (!name || !description) {
-    return res.status(400).json({ message: "Name and description are required" });
+    return res
+      .status(400)
+      .json({ message: "Name and description are required" });
   }
-
-  let imageUrl = null;
-  if (req.file) {
-    const filePath = req.file.path;
-    try {
-      const data = await fs.readFile(filePath); // Using async readFile
-      imageUrl = {
-        data,
-        contentType: req.file.mimetype,
-      };
-    } catch (error) {
-      console.error("Error reading file:", error);
-      return res.status(500).json({ message: "Error reading image file", error });
-    }
-  } else {
-    console.log("image file not found");
+  console.log("file");
+  console.log(req.file);
+  // Ensure an image file is uploaded
+  if (!req.file) {
+    console.log("no file sent");
     return res.status(400).json({ message: "Image file is required" });
   }
+
+  // Set up the image data as Buffer
+  const imageUrl = {
+    data: req.file.buffer, // Buffer from multer's memory storage
+    contentType: req.file.mimetype,
+  };
 
   // Create the new category with image data as Buffer
   const newCategory = new Category({
     name,
     description,
-    imageUrl: imageUrl,
+    imageUrl,
   });
 
   try {
@@ -57,7 +54,6 @@ export const createCategory = async (req: Request, res: Response) => {
     res.status(500).json({ message: "Error creating category", error });
   }
 };
-
 
 // Get a single category by ID
 export const getCategoryById = async (req: Request, res: Response) => {
