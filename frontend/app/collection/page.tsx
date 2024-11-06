@@ -1,49 +1,39 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { ShoppingCart } from "lucide-react";
 import { useCart } from "@/components/CartContext"; // Ensure this path is correct
-
-type Product = {
-  _id: string;
-  name: string;
-  description: string;
-  price: number;
-  image: string;
-  category: string;
-  stock: number;
-  createdAt: string;
-  updatedAt: string;
-  imageUrls: string[];
-};
+import { Product } from "@/types/products";
+import { useGetProductsQuery } from "@/redux/slices/productsApiSlice"; // Import the RTK hook
 
 const CollectionPage = () => {
-  const [products, setProducts] = useState<Product[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
   const { addToCart } = useCart();
+  const { data: products = [], error, isLoading } = useGetProductsQuery();
+  const [imageUrls, setImageUrls] = useState<{ [key: string]: string }>({});
 
   useEffect(() => {
-    const fetchProducts = async () => {
-      try {
-        const response = await fetch(
-          `${process.env.NEXT_PUBLIC_API_URL}/api/products`
-        );
-        if (!response.ok) throw new Error("Failed to fetch products.");
-        const data = await response.json();
-        setProducts(data);
-      } catch (error: any) {
-        setError(error.message);
-      } finally {
-        setIsLoading(false);
-      }
-    };
+    if (products.length > 0) {
+      const urls: { [key: string]: string } = {};
+      products.forEach((product: Product) => {
+        if (product.imageUrls && product.imageUrls[0]?.data) {
+          const blob = new Blob([new Uint8Array(product.imageUrls[0].data)], {
+            type: product.imageUrls[0].type,
+          });
+          const url = URL.createObjectURL(blob);
+          urls[product._id] = url;
+        }
+      });
+      setImageUrls(urls);
 
-    fetchProducts();
-  }, []);
+      // Cleanup Blob URLs when component unmounts
+      return () => {
+        Object.values(urls).forEach((url) => URL.revokeObjectURL(url));
+      };
+    }
+  }, [products]);
 
   return (
     <div className="bg-gradient-to-r from-blue-500 via-purple-600 to-pink-500 text-gray-900 min-h-screen">
@@ -57,7 +47,7 @@ const CollectionPage = () => {
         </div>
       )}
 
-      {error && <p className="text-center text-red-400">{error}</p>}
+      {error && <p className="text-center text-red-400">Failed to load products</p>}
 
       {!isLoading && !error && (
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 px-6 pb-16">
@@ -70,13 +60,15 @@ const CollectionPage = () => {
                 href={`/collection/${product._id}`}
                 className="relative w-full h-64 block"
               >
-                <Image
-                  src={product.imageUrls[2]}
-                  alt={product.name}
-                  layout="fill"
-                  objectFit="cover"
-                  className="transition-transform duration-300 group-hover:scale-110"
-                />
+                {imageUrls[product._id] && (
+                  <Image
+                    src={imageUrls[product._id]}
+                    alt={product.name}
+                    layout="fill"
+                    objectFit="cover"
+                    className="transition-transform duration-300 group-hover:scale-110"
+                  />
+                )}
               </Link>
               <div className="p-4 text-center">
                 <h2
@@ -102,7 +94,7 @@ const CollectionPage = () => {
                       quantity: 1,
                       name: product.name,
                       price: product.price,
-                      imageUrls: product.imageUrls[0]
+                      imageUrls:imageUrls[product._id]
                     })
                   }
                   className="mt-4 w-full flex items-center justify-center bg-primary text-white hover:bg-primary/80 transition-all duration-300 transform hover:scale-105"
