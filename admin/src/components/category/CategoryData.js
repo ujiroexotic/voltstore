@@ -21,26 +21,6 @@ import { getAllCategories } from "../../state/categorySlice";
 import DeleteForeverRoundedIcon from "@mui/icons-material/DeleteForeverRounded";
 import EditRoundedIcon from "@mui/icons-material/EditRounded";
 
-// Separate component for category cell rendering with hooks
-const CategoryCell = ({ name, imageUrl }) => {
-  return (
-    <Box sx={{ display: "flex", alignItems: "center", gap: "1rem" }}>
-      <IconButton>
-        {imageUrl && (
-          <img
-            src={imageUrl} // Directly use the Base64 string
-            width={50}
-            height={50}
-            style={{ borderRadius: "8px" }}
-            alt="Category"
-          />
-        )}
-      </IconButton>
-      <Typography>{name}</Typography>
-    </Box>
-  );
-};
-
 const CategoryDataTable = () => {
   const dispatch = useDispatch();
   const { categories, isLoading } = useSelector((store) => store.categories);
@@ -60,12 +40,53 @@ const CategoryDataTable = () => {
         id: "name",
         header: "Category Name",
         size: 250,
-        Cell: ({ renderedCellValue, row }) => (
-          <CategoryCell
-            name={renderedCellValue}
-            imageUrl={row.original.imageUrl}
-          />
-        ),
+        Cell: ({ renderedCellValue, row }) => {
+          const [imageSrc, setImageSrc] = useState(null);
+          useEffect(() => {
+            if (
+              row.original.imageUrl &&
+              row.original.imageUrl.data &&
+              row.original.imageUrl.data.data
+            ) {
+              const blob = new Blob(
+                [Int8Array.from(row.original.imageUrl.data.data)],
+                {
+                  type: row.original.imageUrl.contentType,
+                }
+              );
+              const image = window.URL.createObjectURL(blob);
+              setImageSrc(image);
+
+              // Cleanup the object URL when the component unmounts or when the avatar data changes
+              return () => {
+                window.URL.revokeObjectURL(image);
+              };
+            }
+          }, []);
+          return (
+            <Box
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                gap: "1rem",
+              }}
+            >
+              <IconButton>
+                {imageSrc && (
+                  <img
+                    src={imageSrc}
+                    width={50}
+                    height={50}
+                    style={{ borderRadius: "50%" }}
+                    alt="ጫተጎርይ"
+                  />
+                )}
+              </IconButton>
+              {/* using renderedCellValue instead of cell.getValue() preserves filter match highlighting */}
+              <span>{renderedCellValue}</span>
+            </Box>
+          );
+        },
       },
       {
         accessorKey: "description",
