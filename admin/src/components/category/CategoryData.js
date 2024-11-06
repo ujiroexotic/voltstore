@@ -5,7 +5,14 @@ import {
   MRT_GlobalFilterTextField,
   MRT_ToggleFiltersButton,
 } from "material-react-table";
-import { Box, Button, MenuItem, Typography, lighten, IconButton } from "@mui/material";
+import {
+  Box,
+  Button,
+  MenuItem,
+  Typography,
+  lighten,
+  IconButton,
+} from "@mui/material";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { useDispatch, useSelector } from "react-redux";
@@ -16,22 +23,12 @@ import EditRoundedIcon from "@mui/icons-material/EditRounded";
 
 // Separate component for category cell rendering with hooks
 const CategoryCell = ({ name, imageUrl }) => {
-  const [imageSrc, setImageSrc] = useState(null);
-
-  useEffect(() => {
-    if (imageUrl) {
-      const firstImageUrl = `${process.env.REACT_APP_BACKEND_API_URL}${imageUrl}`;
-      console.log("firstImageUrl: ", firstImageUrl);
-      setImageSrc(firstImageUrl);
-    }
-  }, [imageUrl]);
-
   return (
     <Box sx={{ display: "flex", alignItems: "center", gap: "1rem" }}>
       <IconButton>
-        {imageSrc && (
+        {imageUrl && (
           <img
-            src={imageSrc}
+            src={imageUrl} // Directly use the Base64 string
             width={50}
             height={50}
             style={{ borderRadius: "8px" }}
@@ -64,7 +61,10 @@ const CategoryDataTable = () => {
         header: "Category Name",
         size: 250,
         Cell: ({ renderedCellValue, row }) => (
-          <CategoryCell name={renderedCellValue} imageUrl={row.original.imageUrl} />
+          <CategoryCell
+            name={renderedCellValue}
+            imageUrl={row.original.imageUrl}
+          />
         ),
       },
       {

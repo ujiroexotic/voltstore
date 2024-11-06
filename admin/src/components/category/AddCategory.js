@@ -64,11 +64,15 @@ export default function FullScreenDialog() {
     formData.append("name", name);
     formData.append("description", description);
     if (imageFile) formData.append("imageUrl", imageFile);
-
+    const data = {
+      name: "Category Name",
+      description: "Category Description",
+      imageUrl: imageFile,
+    };
     try {
       const result = await axios.post(
         `${process.env.REACT_APP_BACKEND_API_URL}/api/category/`,
-        formData,
+        data,
         {
           headers: { "Content-Type": "multipart/form-data" },
         }
