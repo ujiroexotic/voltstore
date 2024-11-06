@@ -1,50 +1,37 @@
+// Import necessary modules
 import { Request, Response } from "express";
-import { UploadedFile, FileArray } from "express-fileupload"; // Import the necessary types from express-fileupload
 import Product from "../models/Product"; // Adjust the import according to your file structure
 
-// Extend the Request interface to include the body and files
+
+// Define CreateProductRequest without express-fileupload
 export interface CreateProductRequest extends Request {
   body: {
     name: string;
     description: string;
-    price: number;
+    price: string;
     category: string;
-    stock: number;
+    stock: string;
   };
-  files: FileArray; // Use FileArray type for files
+  files: Express.Multer.File[]; // Use multer's File array for files
 }
-// Import your Product model if using a database
 
-interface Product {
-  name: string;
-  description: string;
-  price: number;
-  category: string;
-  stock: number;
-  imageUrls: string[];
-}
-export const createProduct = async (
-  req: Request,
-  res: Response
-): Promise<void> => {
-  const { name, description, price, category, stock } = req.body;
+// Controller to create a product
+export const createProduct = async (req: Request, res: Response): Promise<void> => {
+  // Assert req as CreateProductRequest
+  const { name, description, price, category, stock } = (req as CreateProductRequest).body;
+  const files = (req as CreateProductRequest).files;
 
-  // Ensure images are saved as Buffers
-  const imageBuffers = req.files
-    ? (Array.isArray(req.files.imageUrls)
-        ? req.files.imageUrls
-        : [req.files.imageUrls]
-      ).map((file: UploadedFile) => file.data) // Access the binary data of each image file
-    : [];
+  // Ensure images are saved as Buffers from multer
+  const imageBuffers = files ? files.map(file => file.buffer) : [];
 
-  // Create the new product with image Buffers
+  // Create the new product
   const newProduct = new Product({
     name,
     description,
     price: parseFloat(price),
     category: category.trim(),
     stock: parseInt(stock, 10),
-    imageUrls: imageBuffers, // Save the images as Buffers
+    imageUrls: imageBuffers,
   });
 
   try {
