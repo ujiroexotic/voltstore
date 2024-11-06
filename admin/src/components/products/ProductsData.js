@@ -33,11 +33,6 @@ const ProductDataTable = () => {
     dispatch(getAllProducts());
   }, [dispatch, successDialog]);
 
-  const f = new Intl.DateTimeFormat("en-us", {
-    dateStyle: "short",
-    timeStyle: "short",
-  });
-
   const columns = useMemo(
     () => [
       {
@@ -50,25 +45,30 @@ const ProductDataTable = () => {
 
           useEffect(() => {
             if (row.original.imageUrls && row.original.imageUrls.length > 0) {
-              const firstImageUrl = `${process.env.REACT_APP_BACKEND_API_URL}${row.original.imageUrls[0]}`;
-              console.log("firstImageUrl: ", firstImageUrl);
-              setImageSrc(firstImageUrl);
+              const { data, type } = row.original.imageUrls[0];
+              const blob = new Blob([new Uint8Array(data)], {
+                type: type,
+              });
+              const imageUrl = URL.createObjectURL(blob);
+              setImageSrc(imageUrl);
+
+              return () => URL.revokeObjectURL(imageUrl); // Clean up the URL object
             }
           }, [row.original.imageUrls]);
 
           return (
             <Box sx={{ display: "flex", alignItems: "center", gap: "1rem" }}>
-              <IconButton>
-                {imageSrc && (
+              {imageSrc && (
+                <IconButton>
                   <img
                     src={imageSrc}
                     width={50}
                     height={50}
-                    style={{ borderRadius: "8px" }} // Style the image as you prefer
+                    style={{ borderRadius: "8px" }}
                     alt="Product"
                   />
-                )}
-              </IconButton>
+                </IconButton>
+              )}
               <Typography>{renderedCellValue}</Typography>
             </Box>
           );
@@ -96,14 +96,14 @@ const ProductDataTable = () => {
         size: 150,
       },
       {
-        accessorFn: (row) => new Date(row.createdAt), //convert to Date for sorting and filtering
+        accessorFn: (row) => new Date(row.createdAt),
         id: "createdAt",
         header: "Created Date",
         filterVariant: "date",
         filterFn: "lessThan",
         sortingFn: "datetime",
-        Cell: ({ cell }) => cell.getValue()?.toLocaleDateString(), //render Date as a string
-        Header: ({ column }) => <em>{column.columnDef.header}</em>, //custom header markup
+        Cell: ({ cell }) => cell.getValue()?.toLocaleDateString(),
+        Header: ({ column }) => <em>{column.columnDef.header}</em>,
         muiFilterTextFieldProps: {
           sx: {
             minWidth: "250px",
@@ -178,35 +178,33 @@ const ProductDataTable = () => {
         Delete
       </MenuItem>,
     ],
-    renderTopToolbar: ({ table }) => {
-      return (
-        <Box
-          sx={(theme) => ({
-            backgroundColor: lighten(theme.palette.background.default, 0.05),
-            display: "flex",
-            gap: "0.5rem",
-            p: "8px",
-            justifyContent: "space-between",
-          })}
-        >
-          <Box sx={{ display: "flex", gap: "0.5rem", alignItems: "center" }}>
-            <MRT_GlobalFilterTextField table={table} />
-            <MRT_ToggleFiltersButton table={table} />
-          </Box>
-          <Button
-            sx={{
-              padding: "8px 16px",
-              backgroundColor: "#159eec",
-              color: "#fff",
-              "&:hover": { backgroundColor: "#127abb" },
-            }}
-            onClick={() => dispatch(openSuccessDialog())}
-          >
-            Add a Product
-          </Button>
+    renderTopToolbar: ({ table }) => (
+      <Box
+        sx={(theme) => ({
+          backgroundColor: lighten(theme.palette.background.default, 0.05),
+          display: "flex",
+          gap: "0.5rem",
+          p: "8px",
+          justifyContent: "space-between",
+        })}
+      >
+        <Box sx={{ display: "flex", gap: "0.5rem", alignItems: "center" }}>
+          <MRT_GlobalFilterTextField table={table} />
+          <MRT_ToggleFiltersButton table={table} />
         </Box>
-      );
-    },
+        <Button
+          sx={{
+            padding: "8px 16px",
+            backgroundColor: "#159eec",
+            color: "#fff",
+            "&:hover": { backgroundColor: "#127abb" },
+          }}
+          onClick={() => dispatch(openSuccessDialog())}
+        >
+          Add a Product
+        </Button>
+      </Box>
+    ),
   });
 
   return <MaterialReactTable table={table} />;

@@ -78,7 +78,7 @@ const CategoryDataTable = () => {
                     width={50}
                     height={50}
                     style={{ borderRadius: "50%" }}
-                    alt="ጫተጎርይ"
+                    alt="category"
                   />
                 )}
               </IconButton>
