@@ -96,7 +96,7 @@ export const deleteCategoryImage = async (
       return res.status(404).json({ message: "Category not found" });
     }
 
-    const imagePath = path.join(__dirname, "..", "uploads", "categories", category.imageUrl);
+    const imagePath = path.join(__dirname, "..", "uploads", "categories");
 
     await fs.unlink(imagePath);
 
