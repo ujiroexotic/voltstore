@@ -3,7 +3,7 @@ import { Schema, model, Document } from "mongoose";
 interface ICategory extends Document {
   name: string;
   description: string;
-  imageUrl: string;
+  imageUrl: Buffer;
   createdAt: Date;
   updatedAt: Date;
 }

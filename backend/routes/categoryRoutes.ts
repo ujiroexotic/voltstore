@@ -6,28 +6,20 @@ import {
   getCategoryById,
   updateCategory,
   deleteCategory,
+  deleteAllCategory,
 } from "../controllers/categoryController";
 // import { uploadCategoryImages } from '../services/upload';
 
 const router = express.Router();
 
-// Route to get all categories
-router.get("/", getAllCategories);
-
 // Configure multer to use memory storage
 const uploadCategoryImages = multer({ storage: multer.memoryStorage() });
 
+// Route to get all categories
+router.get("/", getAllCategories);
+
 // Route to create a new category
-router.post(
-  "/",
-  (req, res, next) => {
-    console.log("file");
-    console.log(req.file);
-    next();
-  },
-  uploadCategoryImages.single("imageUrl"),
-  createCategory
-);
+router.post("/", uploadCategoryImages.single("imageUrl"), createCategory);
 
 // Route to get a single category by ID
 router.get("/:id", getCategoryById);
@@ -37,5 +29,8 @@ router.put("/:id", updateCategory);
 
 // Route to delete a category by ID
 router.delete("/:id", deleteCategory);
+
+//Route to delete all categories
+router.delete("/", deleteAllCategory);
 
 export default router;

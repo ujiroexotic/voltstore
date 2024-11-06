@@ -2,6 +2,11 @@ import { Request, Response } from "express";
 import Category from "../models/category";
 import fs from "fs/promises";
 
+//error handler
+const handleError = (res: Response, error: any, message: string) => {
+  console.error(error);
+  res.status(500).json({ message, error });
+};
 // Get all categories
 export const getAllCategories = async (req: Request, res: Response) => {
   try {
@@ -88,16 +93,30 @@ export const updateCategory = async (req: Request, res: Response) => {
   }
 };
 
-// Delete a category by ID
+// Delete a single category by ID
 export const deleteCategory = async (req: Request, res: Response) => {
   try {
     const category = await Category.findByIdAndDelete(req.params.id);
+
     if (category) {
-      res.status(200).json({ message: "Category deleted successfully" });
+      res.status(200).json({
+        message: "Category deleted successfully",
+        deletedCategory: category,
+      });
     } else {
       res.status(404).json({ message: "Category not found" });
     }
   } catch (error) {
-    res.status(500).json({ message: "Error deleting category", error });
+    handleError(res, error, "Error deleting category");
+  }
+};
+
+// Delete all categories
+export const deleteAllCategory = async (req: Request, res: Response) => {
+  try {
+    await Category.deleteMany({});
+    res.status(200).json({ message: "All categories deleted successfully" });
+  } catch (error) {
+    handleError(res, error, "Error deleting categories");
   }
 };
