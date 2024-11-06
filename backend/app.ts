@@ -13,7 +13,7 @@ import { requestLogger } from "./middlewares/logger";
 import cors from "cors";
 import cookieParser from "cookie-parser";
 import { admin, protect } from "./middlewares/authMiddleware";
-import fileUpload from "express-fileupload";
+
 dotenv.config();
 const app: Application = express();
 
@@ -39,7 +39,6 @@ app.use(
     credentials: true,
   })
 );
-app.use(fileUpload());
 app.use(cookieParser());
 app.use(express.json()); // Parse incoming JSON requests
 app.use(express.urlencoded({ extended: true })); // Parse URL-encoded requests
