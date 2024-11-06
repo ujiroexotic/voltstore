@@ -7,8 +7,6 @@ const Login = () => {
       <section className="bg-white">
           <main className="flex items-center justify-center px-8 py-8">
             <div className="max-w-xl lg:max-w-3xl">
-
-
               <h1 className="mt-6 text-2xl font-bold text-gray-900 sm:text-3xl md:text-4xl">
                 Welcome Back!
               </h1>
