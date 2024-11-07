@@ -59,8 +59,7 @@ const Footer = () => {
         </div>
 
         <p className="mt-6 max-w-md text-center leading-relaxed text-gray-500 sm:max-w-xs sm:text-left">
-          Lorem ipsum dolor, sit amet consectetur adipisicing elit. Incidunt consequuntur amet culpa
-          cum itaque neque.
+        Voltstore is an e-commerce website designed to provide consumers with a reliable online shopping environment with a wide range of products at low prices.
         </p>
 
         <ul className="mt-8 flex justify-center gap-6 sm:justify-start md:gap-8">
