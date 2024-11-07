@@ -1,7 +1,45 @@
+
+"use client";
 import { Button } from "@/components/ui/button";
-import React from "react";
+import React, { useState } from "react";
 
 const Register = () => {
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    password: ""
+  });
+
+  const [message, setMessage] = useState("");
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value});
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    try {
+      const response = await fetch("/register", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+
+      if (response.ok) {
+        setMessage("Account created successfully!");
+      } else {
+        const errorData = await response.json();
+        console.error(errorData.message || "Failed");
+      }
+    } catch (error) {
+      console.error("An error occurred. Please try again.");
+    }
+  };
+
   return (
     <>
       <section className="bg-white">
@@ -15,7 +53,7 @@ const Register = () => {
               We are happy to have you onboard! Sign Up so we can remember you.
             </p>
 
-            <form action="#" className="mt-8 grid grid-cols-6 gap-6">
+            <form onSubmit={handleSubmit} className="mt-8 grid grid-cols-6 gap-6">
               <div className="col-span-6 sm:col-span-3">
                 <label
                   htmlFor="FirstName"
@@ -27,27 +65,12 @@ const Register = () => {
                 <input
                   type="text"
                   id="FirstName"
-                  name="first_name"
+                  name="name"
+                  value={formData.name}
+                  onChange={handleChange}
                   className="mt-1 w-full rounded-md border-gray-200 bg-white text-sm text-gray-700 shadow-sm"
                 />
               </div>
-
-              <div className="col-span-6 sm:col-span-3">
-                <label
-                  htmlFor="LastName"
-                  className="block text-sm font-medium text-gray-700"
-                >
-                  Last Name
-                </label>
-
-                <input
-                  type="text"
-                  id="LastName"
-                  name="last_name"
-                  className="mt-1 w-full rounded-md border-gray-200 bg-white text-sm text-gray-700 shadow-sm"
-                />
-              </div>
-
               <div className="col-span-6">
                 <label
                   htmlFor="Email"
@@ -61,6 +84,8 @@ const Register = () => {
                   type="email"
                   id="Email"
                   name="email"
+                  value={formData.email}
+                  onChange={handleChange}
                   className="mt-1 w-full rounded-md border-gray-200 bg-white text-sm text-gray-700 shadow-sm"
                 />
               </div>
@@ -78,28 +103,14 @@ const Register = () => {
                   type="password"
                   id="Password"
                   name="password"
-                  className="mt-1 w-full rounded-md border-gray-200 bg-white text-sm text-gray-700 shadow-sm"
-                />
-              </div>
-
-              <div className="col-span-6 sm:col-span-3">
-                <label
-                  htmlFor="PasswordConfirmation"
-                  className="block text-sm font-medium text-gray-700"
-                >
-                  Password Confirmation
-                </label>
-
-                <input
-                  type="password"
-                  id="PasswordConfirmation"
-                  name="password_confirmation"
+                  value={formData.password}
+                  onChange={handleChange}
                   className="mt-1 w-full rounded-md border-gray-200 bg-white text-sm text-gray-700 shadow-sm"
                 />
               </div>
 
               <div className="col-span-6 sm:flex sm:items-center sm:gap-4">
-                <Button>Create an account</Button>
+                <Button type="submit">Create an account</Button>
 
                 <p className="mt-4 text-sm text-gray-500 sm:mt-0">
                   Already have an account?
@@ -110,6 +121,7 @@ const Register = () => {
                 </p>
               </div>
             </form>
+            {message && <p className="mt-4 text-red-500">{message}</p>}
           </div>
         </main>
       </section>
