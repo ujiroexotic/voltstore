@@ -5,11 +5,9 @@ import {
   MRT_GlobalFilterTextField,
   MRT_ToggleFiltersButton,
 } from "material-react-table";
-import { Box, Button, MenuItem, Typography, IconButton } from "@mui/material";
+import { Box, Button, MenuItem } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
-import { getAllOrders } from "../../state/orderSlice";
-import EditRoundedIcon from "@mui/icons-material/EditRounded";
-import DeleteForeverRoundedIcon from "@mui/icons-material/DeleteForeverRounded";
+import { getAllOrders, updateOrder } from "../../state/orderSlice";
 
 const OrdersDataTable = () => {
   const dispatch = useDispatch();
@@ -32,7 +30,35 @@ const OrdersDataTable = () => {
       },
       {
         accessorKey: "status",
+        filterVariant: "autocomplete", // Use this if not using filter modes feature
         header: "Status",
+        size: 200,
+        // Custom conditional format and styling
+        Cell: ({ cell }) => (
+          <Box
+            component="span"
+            sx={{
+              backgroundColor:
+                cell.getValue() === "cancelled"
+                  ? "#FF4500" // Orange Red for Cancelled
+                  : cell.getValue() === "processing"
+                  ? "#FFA500" // Orange for Processing
+                  : cell.getValue() === "shipped"
+                  ? "#00CED1" // Dark Turquoise for Shipped
+                  : cell.getValue() === "delivered"
+                  ? "#32CD32" // Lime Green for Delivered
+                  : cell.getValue() === "pending"
+                  ? "#FFD700" // Gold for Pending
+                  : "#D3D3D3", // Light Gray for any other cases
+              borderRadius: "0.5rem",
+              color: "#000", // Black text color for better readability
+              maxWidth: "12ch",
+              padding: "0.25rem",
+            }}
+          >
+            {cell.getValue()?.toLocaleString()}
+          </Box>
+        ),
       },
       {
         accessorKey: "total",
@@ -65,8 +91,6 @@ const OrdersDataTable = () => {
     enableGrouping: true,
     enableColumnPinning: true,
     enableFacetedValues: true,
-    enableRowActions: true,
-    enableRowSelection: true,
     initialState: {
       showColumnFilters: false,
       showGlobalFilter: true,
@@ -103,6 +127,8 @@ const OrdersDataTable = () => {
           closeMenu();
           setCurrentRow(row.original);
           setOpenDialog(true);
+          console.log(row.original._id);
+          dispatch(updateOrder(row.original._id, "pending"));
         }}
         sx={{ color: "#FFD700" }} // Gold - High contrast on black
       >
@@ -114,6 +140,8 @@ const OrdersDataTable = () => {
           closeMenu();
           setCurrentRow(row.original);
           setOpenDialog(true);
+          console.log(row.original._id);
+          dispatch(updateOrder({ id: row.original._id, status: "processing" }));
         }}
         sx={{ color: "#FFA500" }} // Orange - High contrast on black
       >
@@ -125,6 +153,7 @@ const OrdersDataTable = () => {
           closeMenu();
           setCurrentRow(row.original);
           setOpenDialog(true);
+          dispatch(updateOrder({ id: row.original._id, status: "shipped" }));
         }}
         sx={{ color: "#00CED1" }} // Dark Turquoise - Stands out on black
       >
@@ -136,6 +165,7 @@ const OrdersDataTable = () => {
           closeMenu();
           setCurrentRow(row.original);
           setOpenDialog(true);
+          dispatch(updateOrder({ id: row.original._id, status: "delivered" }));
         }}
         sx={{ color: "#32CD32" }} // Lime Green - High visibility on black
       >
@@ -147,6 +177,7 @@ const OrdersDataTable = () => {
           closeMenu();
           setCurrentRow(row.original);
           setOpenDialog(true);
+          dispatch(updateOrder({ id: row.original._id, status: "cancelled" }));
         }}
         sx={{ color: "#FF4500" }} // Orange Red - Easy to spot on black
       >

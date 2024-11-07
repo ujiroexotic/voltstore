@@ -43,14 +43,19 @@ export const addOrder = createAsyncThunk(
   }
 );
 
-// Update an existing order
+// Update an existing order status
 export const updateOrder = createAsyncThunk(
-  "orders/update",
-  async (data, { rejectWithValue }) => {
+  "orders/updateStatus",
+  async ({ id, status }, { rejectWithValue }) => {
+    console.log("id", id);
+    console.log("status", status);
     try {
       const response = await axios.put(
-        `${process.env.REACT_APP_BACKEND_API_URL}/api/orders/${data.id}`,
-        data
+        `${process.env.REACT_APP_BACKEND_API_URL}/api/orders/${id}`,
+        { status },
+        {
+          withCredentials: true, // only needed if cookies are used for auth
+        }
       );
       return response.data;
     } catch (error) {
@@ -110,14 +115,13 @@ const ordersSlice = createSlice({
       })
       .addCase(updateOrder.pending, (state) => {
         state.isLoading = true;
-        state.error = null;
       })
       .addCase(updateOrder.fulfilled, (state, action) => {
         state.isLoading = false;
-        const index = state.orders.findIndex(
-          (order) => order._id === action.payload._id
+        const updatedOrder = action.payload;
+        state.orders = state.orders.map((order) =>
+          order._id === updatedOrder._id ? updatedOrder : order
         );
-        if (index !== -1) state.orders[index] = action.payload;
       })
       .addCase(updateOrder.rejected, (state, action) => {
         state.isLoading = false;
