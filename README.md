@@ -399,9 +399,7 @@ We welcome contributions to our project! Whether you’re fixing a bug, adding a
    - **Testing**: Include tests for new features or bug fixes. Ensure all existing tests pass.
 
 4. **Communication**
-   Feel free to reach out through issues or discussions for any
-
- questions or clarifications. We appreciate constructive feedback and ideas!
+   Feel free to reach out through issues or discussions for any questions or clarifications. We appreciate constructive feedback and ideas!
 
 ## Authors
 
