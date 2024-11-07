@@ -25,12 +25,12 @@ if (process.env.NODE_ENV === "development") {
   app.use(morgan("dev")); // Log requests in development mode
 }
 
-app.use('/uploads', express.static(path.join('/app/uploads')));
+app.use("/uploads", express.static(path.join("/app/uploads")));
 
 app.use(
   cors({
     origin: [
-      process.env.FRONTEND_URL  || "http://localhost:3000",
+      process.env.FRONTEND_URL || "http://localhost:3000",
       "http://localhost:3000",
       "http://localhost:3001",
     ],
@@ -57,16 +57,11 @@ app.use("/api/products", productRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/cart", cartRoutes); // Auth required for cart
 app.use("/api/orders", orderRoutes); // Auth required for orders
-app.use("/api/category", categoryRoutes)
+app.use("/api/category", categoryRoutes);
 // Admin-only route (example)
-app.use(
-  "/api/admin",
-  protect,
-  admin,
-  (req: Request, res: Response) => {
-    res.send("Welcome Admin");
-  }
-);
+app.use("/api/admin", protect, admin, (req: Request, res: Response) => {
+  res.send("Welcome Admin");
+});
 
 // Error handling middleware
 app.use(notFound); // 404 handling
