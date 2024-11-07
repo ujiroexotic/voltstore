@@ -9,6 +9,7 @@ import unAvailableDatesReducer from "./unAvailableDatesSlice";
 import DepartmentReducer from "./departmentSlice";
 import produtReducer from "./productSlice";
 import categoryReducer from "./categorySlice";
+import orderReducer from "./orderSlice";
 export const store = configureStore({
   reducer: {
     appointment: appointmentReducer,
@@ -20,6 +21,7 @@ export const store = configureStore({
     departments: DepartmentReducer,
     products: produtReducer,
     categories: categoryReducer,
+    orders: orderReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
