@@ -13,7 +13,7 @@ const router = express.Router();
 router.get('/', protect, getCartItems);
 
 // Add item to cart (protected)
-router.post('/', protect, addToCart);
+router.post('/', addToCart);
 
 // Update item quantity in cart (protected)
 router.put('/:id', protect, updateCartItem);
