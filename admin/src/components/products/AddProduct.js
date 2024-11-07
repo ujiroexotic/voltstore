@@ -10,8 +10,6 @@ import Slide from "@mui/material/Slide";
 import { makeStyles } from "@mui/styles";
 import { useTheme } from "@mui/material/styles";
 import { useDispatch, useSelector } from "react-redux";
-import { getAllDepartments } from "../../state/departmentSlice";
-import bkgImg from "../../assets/images/doc.png";
 import { closeSuccessDialog } from "../../state/dialogSlice";
 import { getAllCategories } from "../../state/categorySlice";
 import {

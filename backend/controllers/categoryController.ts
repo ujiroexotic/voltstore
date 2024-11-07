@@ -1,27 +1,62 @@
-import { Request, Response } from 'express';
-import Category from '../models/category';
+import { Request, Response } from "express";
+import Category from "../models/category";
+import fs from "fs/promises";
 
+//error handler
+const handleError = (res: Response, error: any, message: string) => {
+  console.error(error);
+  res.status(500).json({ message, error });
+};
 // Get all categories
 export const getAllCategories = async (req: Request, res: Response) => {
   try {
     const categories = await Category.find();
     res.status(200).json(categories);
   } catch (error) {
-    res.status(500).json({ message: 'Error fetching categories', error });
+    res.status(500).json({ message: "Error fetching categories", error });
   }
 };
 
 // Create a new category
 export const createCategory = async (req: Request, res: Response) => {
   const { name, description } = req.body;
-  console.log('req.body', req.body)
+
+  // Check for missing fields
+  if (!name || !description) {
+    return res
+      .status(400)
+      .json({ message: "Name and description are required" });
+  }
+  console.log("file");
+  console.log(req.file);
+  // Ensure an image file is uploaded
+  if (!req.file) {
+    console.log("no file sent");
+    return res.status(400).json({ message: "Image file is required" });
+  }
+
+  // Set up the image data as Buffer
+  const imageUrl = {
+    data: req.file.buffer, // Buffer from multer's memory storage
+    contentType: req.file.mimetype,
+  };
+
+  // Create the new category with image data as Buffer
+  const newCategory = new Category({
+    name,
+    description,
+    imageUrl,
+  });
+
   try {
-    const category = new Category({ name, description });
-    await category.save();
-    res.status(201).json(category);
+    await newCategory.save();
+    res.status(201).json({
+      message: "Category created successfully",
+      category: newCategory,
+    });
   } catch (error) {
-    console.log(error)
-    res.status(500).json({ message: 'Error creating category', error });
+    console.error("Error creating category:", error);
+    res.status(500).json({ message: "Error creating category", error });
   }
 };
 
@@ -32,10 +67,10 @@ export const getCategoryById = async (req: Request, res: Response) => {
     if (category) {
       res.status(200).json(category);
     } else {
-      res.status(404).json({ message: 'Category not found' });
+      res.status(404).json({ message: "Category not found" });
     }
   } catch (error) {
-    res.status(500).json({ message: 'Error fetching category', error });
+    res.status(500).json({ message: "Error fetching category", error });
   }
 };
 
@@ -51,23 +86,37 @@ export const updateCategory = async (req: Request, res: Response) => {
     if (category) {
       res.status(200).json(category);
     } else {
-      res.status(404).json({ message: 'Category not found' });
+      res.status(404).json({ message: "Category not found" });
     }
   } catch (error) {
-    res.status(500).json({ message: 'Error updating category', error });
+    res.status(500).json({ message: "Error updating category", error });
   }
 };
 
-// Delete a category by ID
+// Delete a single category by ID
 export const deleteCategory = async (req: Request, res: Response) => {
   try {
     const category = await Category.findByIdAndDelete(req.params.id);
+
     if (category) {
-      res.status(200).json({ message: 'Category deleted successfully' });
+      res.status(200).json({
+        message: "Category deleted successfully",
+        deletedCategory: category,
+      });
     } else {
-      res.status(404).json({ message: 'Category not found' });
+      res.status(404).json({ message: "Category not found" });
     }
   } catch (error) {
-    res.status(500).json({ message: 'Error deleting category', error });
+    handleError(res, error, "Error deleting category");
+  }
+};
+
+// Delete all categories
+export const deleteAllCategory = async (req: Request, res: Response) => {
+  try {
+    await Category.deleteMany({});
+    res.status(200).json({ message: "All categories deleted successfully" });
+  } catch (error) {
+    handleError(res, error, "Error deleting categories");
   }
 };

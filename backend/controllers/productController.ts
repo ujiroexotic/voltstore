@@ -1,67 +1,48 @@
+// Import necessary modules
 import { Request, Response } from "express";
-import { UploadedFile, FileArray } from "express-fileupload"; // Import the necessary types from express-fileupload
 import Product from "../models/Product"; // Adjust the import according to your file structure
 
-// Extend the Request interface to include the body and files
+
+// Define CreateProductRequest without express-fileupload
 export interface CreateProductRequest extends Request {
   body: {
     name: string;
     description: string;
-    price: number;
+    price: string;
     category: string;
-    stock: number;
+    stock: string;
   };
-  files: FileArray; // Use FileArray type for files
-}
-// Import your Product model if using a database
-
-interface Product {
-  name: string;
-  description: string;
-  price: number;
-  category: string;
-  stock: number;
-  imageUrls: string[];
+  files: Express.Multer.File[]; // Use multer's File array for files
 }
 
-export const createProduct = async (
-  req: Request,
-  res: Response
-): Promise<void> => {
-  const { name, description, price, category, stock } = req.body;
+// Controller to create a product
+export const createProduct = async (req: Request, res: Response): Promise<void> => {
+  // Assert req as CreateProductRequest
+  const { name, description, price, category, stock } = (req as CreateProductRequest).body;
+  const files = (req as CreateProductRequest).files;
 
-  console.log("file");
-  console.log(req.files);
+  // Ensure images are saved as Buffers from multer
+  const imageBuffers = files ? files.map(file => file.buffer) : [];
 
-  // Map the uploaded files to an array of image URLs
-  const imagePaths = Array.isArray(req.files)
-    ? req.files.map((file: Express.Multer.File) => file.path)
-    : [];
-
-  console.log("imagePaths");
-  console.log(imagePaths);
-
-  // Create the new product with the correct field name for image URLs
-  const newProduct: Product = {
+  // Create the new product
+  const newProduct = new Product({
     name,
     description,
     price: parseFloat(price),
-    category: category.trim(), // Trim any whitespace
-    stock: parseInt(stock),
-    imageUrls: imagePaths, // Use the correct field name
-    // createdAt: new Date(),
-    // updatedAt: new Date(),
-  };
+    category: category.trim(),
+    stock: parseInt(stock, 10),
+    imageUrls: imageBuffers,
+  });
 
   try {
-    // Save the product in the database
-    const savedProduct = await Product.create(newProduct);
+    const savedProduct = await newProduct.save();
     res.status(201).json({ message: "Product created successfully", product: savedProduct });
   } catch (error) {
     console.error("Error creating product:", error);
     res.status(500).json({ message: "Server error", error });
   }
 };
+
 
 // Get all products
 export const getAllProducts = async (req: Request, res: Response) => {

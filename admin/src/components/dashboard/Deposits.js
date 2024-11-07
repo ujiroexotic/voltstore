@@ -32,7 +32,7 @@ export default function Deposits() {
     <Fragment>
       <Title>Total Revenue</Title>
       <Typography component="p" variant="h4">
-        revenue{" "}ETB
+        revenue{" "}USD
       </Typography>
       <Typography color="text.secondary" sx={{ flex: 1 }}>
         on {f.format(Date.now())}

@@ -17,20 +17,20 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { useDispatch, useSelector } from "react-redux";
 import { openSuccessDialog } from "../../state/dialogSlice";
-import { getAllProducts } from "../../state/productSlice";
+import { getAllCategories } from "../../state/categorySlice";
 import DeleteForeverRoundedIcon from "@mui/icons-material/DeleteForeverRounded";
 import EditRoundedIcon from "@mui/icons-material/EditRounded";
 
-const ProductDataTable = () => {
+const CategoryDataTable = () => {
   const dispatch = useDispatch();
-  const { products, isLoading } = useSelector((store) => store.products);
-  const data = useMemo(() => products, [products]);
+  const { categories, isLoading } = useSelector((store) => store.categories);
+  const data = useMemo(() => categories, [categories]);
   const [openDialog, setOpenDialog] = useState(false);
   const [currentRow, setCurrentRow] = useState(null);
   const { successDialog } = useSelector((store) => store.dialog);
 
   useEffect(() => {
-    dispatch(getAllProducts());
+    dispatch(getAllCategories());
   }, [dispatch, successDialog]);
 
   const columns = useMemo(
@@ -38,77 +38,60 @@ const ProductDataTable = () => {
       {
         accessorFn: (row) => row.name,
         id: "name",
-        header: "Product Name",
+        header: "Category Name",
         size: 250,
         Cell: ({ renderedCellValue, row }) => {
           const [imageSrc, setImageSrc] = useState(null);
-
           useEffect(() => {
-            if (row.original.imageUrls && row.original.imageUrls.length > 0) {
-              const { data, type } = row.original.imageUrls[0];
-              const blob = new Blob([new Uint8Array(data)], {
-                type: type,
-              });
-              const imageUrl = URL.createObjectURL(blob);
-              setImageSrc(imageUrl);
+            if (
+              row.original.imageUrl &&
+              row.original.imageUrl.data &&
+              row.original.imageUrl.data.data
+            ) {
+              const blob = new Blob(
+                [Int8Array.from(row.original.imageUrl.data.data)],
+                {
+                  type: row.original.imageUrl.contentType,
+                }
+              );
+              const image = window.URL.createObjectURL(blob);
+              setImageSrc(image);
 
-              return () => URL.revokeObjectURL(imageUrl); // Clean up the URL object
+              // Cleanup the object URL when the component unmounts or when the avatar data changes
+              return () => {
+                window.URL.revokeObjectURL(image);
+              };
             }
-          }, [row.original.imageUrls]);
-
+          }, []);
           return (
-            <Box sx={{ display: "flex", alignItems: "center", gap: "1rem" }}>
-              {imageSrc && (
-                <IconButton>
+            <Box
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                gap: "1rem",
+              }}
+            >
+              <IconButton>
+                {imageSrc && (
                   <img
                     src={imageSrc}
                     width={50}
                     height={50}
-                    style={{ borderRadius: "8px" }}
-                    alt="Product"
+                    style={{ borderRadius: "50%" }}
+                    alt="category"
                   />
-                </IconButton>
-              )}
-              <Typography>{renderedCellValue}</Typography>
+                )}
+              </IconButton>
+              {/* using renderedCellValue instead of cell.getValue() preserves filter match highlighting */}
+              <span>{renderedCellValue}</span>
             </Box>
           );
         },
       },
       {
-        accessorKey: "category",
-        header: "Category",
-        size: 200,
-      },
-      {
         accessorKey: "description",
         header: "Description",
         size: 500,
-      },
-      {
-        accessorKey: "price",
-        header: "Price",
-        size: 150,
-        Cell: ({ renderedCellValue }) => `$${renderedCellValue.toFixed(2)}`,
-      },
-      {
-        accessorKey: "stock",
-        header: "Stock",
-        size: 150,
-      },
-      {
-        accessorFn: (row) => new Date(row.createdAt),
-        id: "createdAt",
-        header: "Created Date",
-        filterVariant: "date",
-        filterFn: "lessThan",
-        sortingFn: "datetime",
-        Cell: ({ cell }) => cell.getValue()?.toLocaleDateString(),
-        Header: ({ column }) => <em>{column.columnDef.header}</em>,
-        muiFilterTextFieldProps: {
-          sx: {
-            minWidth: "250px",
-          },
-        },
       },
     ],
     []
@@ -201,7 +184,7 @@ const ProductDataTable = () => {
           }}
           onClick={() => dispatch(openSuccessDialog())}
         >
-          Add a Product
+          Add a Category
         </Button>
       </Box>
     ),
@@ -210,10 +193,10 @@ const ProductDataTable = () => {
   return <MaterialReactTable table={table} />;
 };
 
-const ProductDataTableWithLocalizationProvider = () => (
+const CategoryDataTableWithLocalizationProvider = () => (
   <LocalizationProvider dateAdapter={AdapterDayjs}>
-    <ProductDataTable />
+    <CategoryDataTable />
   </LocalizationProvider>
 );
 
-export default ProductDataTableWithLocalizationProvider;
+export default CategoryDataTableWithLocalizationProvider;

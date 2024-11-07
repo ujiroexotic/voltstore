@@ -32,6 +32,12 @@ const MainListItems = () => {
         </ListItemIcon>
         <ListItemText primary="Dashboard" />
       </ListItemButton>
+      <ListItemButton onClick={() => goTo("/categories")}>
+        <ListItemIcon>
+          <FaCalendarAlt style={{ fontSize: "20px" }} />
+        </ListItemIcon>
+        <ListItemText primary="Categories" />
+      </ListItemButton>
       <ListItemButton onClick={() => goTo("/products")}>
         <ListItemIcon>
           <FaCalendarAlt style={{ fontSize: "20px" }} />
