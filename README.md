@@ -80,7 +80,7 @@ Voltstore is an e-commerce website designed to provide consumers with a reliable
    ```
 4. Start the client application:
    ```bash
-   npm start
+   npm run dev
    ```
 
 ### Admin Side
@@ -98,7 +98,7 @@ Voltstore is an e-commerce website designed to provide consumers with a reliable
    ```
 4. Start the admin application:
    ```bash
-   npm start
+   npm run dev
    ```
 
 ### Backend API 
@@ -113,7 +113,7 @@ Voltstore is an e-commerce website designed to provide consumers with a reliable
 3. Create a .env file with the necessary environment variables.
 4. Start the server:
    ```bash
-   npm start
+   npm run dev
    ```
 
 ## Usage
