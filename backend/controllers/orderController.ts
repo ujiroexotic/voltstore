@@ -5,25 +5,21 @@ import Cart from '../models/cart';
 // Place a new order
 export const placeOrder = async (req: Request, res: Response) => {
   try {
-    const cart = await Cart.findOne({ user: req.user?.id });
+    const userId = req.user?._id; // Access the user ID from the authenticated request
+    const { items, total, shippingAddress } = req.body;
 
-    if (!cart || cart.items.length === 0) {
-      return res.status(400).json({ message: 'Cart is empty' });
-    }
-
-    const order = new Order({
-      user: req.user?.id,
-      items: cart.items,
-      total: cart.total,
-      shippingAddress: req.body.shippingAddress,
+    const newOrder = new Order({
+      user: userId,
+      items,
+      total,
+      shippingAddress,
+      status: 'pending',
+      isPaid: false,
+      isDelivered: false,
     });
 
-    const savedOrder = await order.save();
-
-    // Clear the cart after creating the order
-    await Cart.deleteOne({ user: req.user?.id });
-
-    res.status(201).json(savedOrder);
+    await newOrder.save();
+    res.status(201).json(newOrder);
   } catch (error) {
     res.status(500).json({ message: 'Server error', error });
   }
