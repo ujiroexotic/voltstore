@@ -4,19 +4,15 @@ import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import ListSubheader from "@mui/material/ListSubheader";
 import DashboardIcon from "@mui/icons-material/Dashboard";
-import AssignmentIcon from "@mui/icons-material/Assignment";
-import LayersIcon from "@mui/icons-material/Layers";
-import { FaCalendarAlt, FaMoneyCheckAlt, FaPowerOff } from "react-icons/fa";
+import { FaMoneyCheckAlt, FaPowerOff } from "react-icons/fa";
 import { FaUserDoctor } from "react-icons/fa6";
-import { MdManageAccounts } from "react-icons/md";
-import { CgUnavailable, CgProfile } from "react-icons/cg";
-import { FcDepartment } from "react-icons/fc";
+import { MdCategory } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
 import { toast } from "react-toastify";
-// import { useAuth } from "../../contexts/AuthContext";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { logout } from "../../state/userSlice";
+import { VscListUnordered } from "react-icons/vsc";
+import { MdProductionQuantityLimits } from "react-icons/md";
 const MainListItems = () => {
   const navigate = useNavigate();
 
@@ -34,13 +30,13 @@ const MainListItems = () => {
       </ListItemButton>
       <ListItemButton onClick={() => goTo("/categories")}>
         <ListItemIcon>
-          <FaCalendarAlt style={{ fontSize: "20px" }} />
+          <MdCategory style={{ fontSize: "20px" }} />
         </ListItemIcon>
         <ListItemText primary="Categories" />
       </ListItemButton>
       <ListItemButton onClick={() => goTo("/products")}>
         <ListItemIcon>
-          <FaCalendarAlt style={{ fontSize: "20px" }} />
+          <MdProductionQuantityLimits style={{ fontSize: "20px" }} />
         </ListItemIcon>
         <ListItemText primary="Products" />
       </ListItemButton>
@@ -52,7 +48,7 @@ const MainListItems = () => {
       </ListItemButton>
       <ListItemButton onClick={() => goTo("/orders")}>
         <ListItemIcon>
-          <FaUserDoctor style={{ fontSize: "20px" }} />
+          <VscListUnordered style={{ fontSize: "20px" }} />
         </ListItemIcon>
         <ListItemText primary="Orders" />
       </ListItemButton>
@@ -62,18 +58,6 @@ const MainListItems = () => {
         </ListItemIcon>
         <ListItemText primary="Transactions" />
       </ListItemButton>
-      {/* <ListItemButton onClick={() => goTo("/unavailabledates")}>
-        <ListItemIcon>
-          <CgUnavailable style={{ fontSize: "25px" }} />
-        </ListItemIcon>
-        <ListItemText primary="Unavailable dates" />
-      </ListItemButton>
-      <ListItemButton onClick={() => goTo("/departments")}>
-        <ListItemIcon>
-          <FcDepartment style={{ fontSize: "25px" }} />
-        </ListItemIcon>
-        <ListItemText primary="Departments" />
-      </ListItemButton> */}
     </React.Fragment>
   );
 };
