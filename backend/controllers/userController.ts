@@ -103,7 +103,7 @@ export const logoutUser = async (req: Request, res: Response) => {
 // Get user profile
 export const getUserProfile = async (req: Request, res: Response) => {
   try {
-    const user = await User.findById(req.user?.id).select("-password");
+    const user = await User.findById(req.user?._id).select("-password");
     if (!user) {
       return res.status(404).json({ message: "User not found" });
     }
@@ -119,7 +119,7 @@ export const updateUserProfile = async (req: Request, res: Response) => {
 
   try {
     const updatedUser = await User.findByIdAndUpdate(
-      req.user?.id,
+      req.user?._id,
       { name, email },
       { new: true, runValidators: true }
     ).select("-password");
