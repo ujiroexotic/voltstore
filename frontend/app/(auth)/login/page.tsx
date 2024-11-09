@@ -5,6 +5,7 @@ import { useLoginUserMutation } from "@/redux/slices/userApiSlice";
 import { FiAlertCircle } from "react-icons/fi";
 import { BiLoaderAlt } from "react-icons/bi";
 import { useRouter } from "next/navigation";
+import { setCredentials } from "@/redux/slices/authSlice";
 const Login = () => {
   const router = useRouter();
   const [formData, setFormData] = useState({
@@ -33,6 +34,7 @@ const Login = () => {
       setMessageType("success");
       console.log(result);
       router.push("/");
+      // setCredentials(result.token);
     } catch (err) {
       console.error("Failed to login:", err);
       setMessage("Failed to login. Please check your credentials.");
