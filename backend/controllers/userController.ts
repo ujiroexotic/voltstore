@@ -53,6 +53,7 @@ export const registerUser = async (req: Request, res: Response) => {
 
     const savedUser = await newUser.save();
     console.log("user created successfully");
+    console.log("user:", savedUser);
     res.status(201).json(savedUser);
   } catch (error) {
     res.status(500).json({ message: "Server error", error });
@@ -83,7 +84,7 @@ export const loginUser = async (req: Request, res: Response) => {
       secure: true, // Ensure the cookie is only sent over HTTPS
     });
 
-    res.status(200).json({ token, userId: user._id });
+    res.status(200).json({ userId: user._id });
   } catch (error) {
     console.log(error);
     res.status(500).json({ message: "Server error", error });

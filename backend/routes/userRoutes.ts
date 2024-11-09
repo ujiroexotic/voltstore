@@ -18,7 +18,7 @@ router.post("/register", registerUser);
 router.post("/login", loginUser);
 
 // Logout a user
-router.get("/logout", logoutUser);
+router.post("/logout", logoutUser);
 
 // check if user is admin
 router.get("/checkAdmin", protect, (req, res) => {
