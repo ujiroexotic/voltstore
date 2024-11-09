@@ -16,6 +16,8 @@
     "@reduxjs/toolkit": "^2.3.0",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
+    "cookie": "^1.0.1",
+    "js-cookie": "^3.0.5",
     "lucide-react": "^0.453.0",
     "next": "15.0.0",
     "react": "^18.3.1",
@@ -27,6 +29,7 @@
     "util-deprecate": "^1.0.2"
   },
   "devDependencies": {
+    "@types/js-cookie": "^3.0.6",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
