@@ -35,7 +35,7 @@ export const authUser = asyncHandler(async (req: Request, res: Response) => {
 
 // Register a new user
 export const registerUser = async (req: Request, res: Response) => {
-  const { name, email, password, role } = req.body;
+  const { name, email, password, role = "customer" } = req.body;
 
   try {
     const existingUser = await User.findOne({ email });
@@ -78,7 +78,7 @@ export const loginUser = async (req: Request, res: Response) => {
     );
     res.cookie("authToken", token, {
       httpOnly: true,
-      maxAge: 24 * 60 * 60 * 1000, 
+      maxAge: 24 * 60 * 60 * 1000,
       sameSite: "none",
       secure: true, // Ensure the cookie is only sent over HTTPS
     });
