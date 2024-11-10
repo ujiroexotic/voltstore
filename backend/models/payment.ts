@@ -12,7 +12,7 @@ interface IPayment extends Document {
 
 const paymentSchema = new Schema<IPayment>({
   order: { type: Schema.Types.ObjectId, ref: 'Order', required: true },
-  paymentMethod: { type: String, required: true },
+  paymentMethod: { type: String, required: true, enum: ['paypal', 'stripe', 'cash'] },
   amount: { type: Number, required: true },
   status: { type: String, required: true },
   transactionId: { type: String, required: true },
