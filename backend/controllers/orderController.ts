@@ -1,13 +1,23 @@
 import { Request, Response } from "express";
 import Order from "../models/order";
 import Cart from "../models/cart";
+import Payment from "../models/payment";
 
+function generateTrasactionId() {
+  let characters =
+    "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+  let result = "";
+  for (let i = 0; i < 40; i++) {
+    result += characters.charAt(Math.floor(Math.random() * characters.length));
+  }
+  return `TX-${result}`;
+}
 // Place a new order
 export const placeOrder = async (req: Request, res: Response) => {
   try {
     const userId = req.user?._id; // Access the user ID from the authenticated request
     const { items, total, shippingAddress } = req.body;
-
+    console.log(userId);
     const newOrder = new Order({
       user: userId,
       items,
@@ -17,8 +27,22 @@ export const placeOrder = async (req: Request, res: Response) => {
       isPaid: false,
       isDelivered: false,
     });
-
+    console.log("order saved");
     await newOrder.save();
+    const newPayment = new Payment({
+      order: newOrder._id,
+      paymentMethod: "paypal",
+      amount: total,
+      status: "paid",
+      transactionId: generateTrasactionId(),
+      paidAt: new Date(),
+    });
+
+    await newPayment.save();
+    console.log("payment saved");
+    // update the status the order into paid true
+    await Order.findByIdAndUpdate(newOrder._id, { isPaid: true });
+    console.log("order status updated");
     res.status(201).json(newOrder);
   } catch (error) {
     res.status(500).json({ message: "Server error", error });

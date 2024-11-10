@@ -12,7 +12,7 @@ import { protect, admin } from '../middlewares/authMiddleware';
 const router = express.Router();
 
 // Route to place a new order
-router.post('/', placeOrder);
+router.post('/', protect, placeOrder);
 
 // Route to get all orders (admin only)
 router.get('/', protect, admin, getAllOrders);
