@@ -11,8 +11,8 @@ export interface AuthRequest extends Request {
 
 export const protect = asyncHandler(async (req: AuthRequest, res: Response, next: NextFunction) => {
   let token;
-console.log('Use Token:')
-console.log(req.cookies.authToken)
+// console.log('User Token:')
+// console.log(req.cookies.authToken)
   // Look for the token in the cookies
   if (req.cookies && req.cookies.authToken) {
     token = req.cookies.authToken;
