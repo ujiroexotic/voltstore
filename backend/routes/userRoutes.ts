@@ -7,7 +7,7 @@ import {
   deleteUser,
   logoutUser,
 } from "../controllers/userController";
-import { protect } from "../middlewares/authMiddleware";
+import { admin, protect } from "../middlewares/authMiddleware";
 
 const router = express.Router();
 
@@ -21,12 +21,9 @@ router.post("/login", loginUser);
 router.post("/logout", logoutUser);
 
 // check if user is admin
-router.get("/checkAdmin", protect, (req, res) => {
+router.get("/checkAdmin", protect, admin, (req, res) => {
   console.log("user:");
   console.log(req.user);
-  if (req.user?.role !== "admin") {
-    return res.status(403).json({ message: "Access denied: Admins only" });
-  }
   res.status(201).send("Welcome Admin");
 });
 
