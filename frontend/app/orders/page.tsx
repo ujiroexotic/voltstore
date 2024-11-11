@@ -35,7 +35,7 @@ const TrackingDetails = () => {
             <h2 className="text-xl font-semibold mb-2">Order ID: {order._id}</h2>
             <p>Status: {order.status}</p>
             <p>Paid: {order.isPaid ? "Yes" : "No"}</p>
-            <p>Delivered: {order.isDelivered ? "Yes" : "No"}</p>
+            {/* <p>Delivered: {order.isDelivered ? "Yes" : "No"}</p> */}
             <h3 className="text-lg font-medium mt-4">Items:</h3>
             <ul className="list-disc pl-6">
               {order.items.map((item) => (
