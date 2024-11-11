@@ -12,6 +12,7 @@ import { getAllOrders, updateOrder } from "../../state/orderSlice";
 const OrdersDataTable = () => {
   const dispatch = useDispatch();
   const { orders, isLoading } = useSelector((store) => store.orders);
+  console.log(orders)
   const data = useMemo(() => orders, [orders]);
   console.log("orders", orders);
   // State for dialog control
