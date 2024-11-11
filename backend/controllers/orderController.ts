@@ -52,7 +52,7 @@ export const placeOrder = async (req: Request, res: Response) => {
 // Get all orders (Admin only)
 export const getAllOrders = async (req: Request, res: Response) => {
   try {
-    const orders = await Order.find().populate("items.product");
+    const orders = await Order.find().populate("items.product").sort({ createdAt: -1 });
     res.status(200).json(orders);
   } catch (error) {
     res.status(500).json({ message: "Server error", error });
@@ -64,7 +64,7 @@ export const getUserOrders = async (req: Request, res: Response) => {
   try {
     const orders = await Order.find({ user: req.user?._id }).populate(
       "items.product"
-    );
+    ).sort({ createdAt: -1 });
     res.status(200).json(orders);
   } catch (error) {
     res.status(500).json({ message: "Server error", error });
