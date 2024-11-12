@@ -47,6 +47,13 @@ export type CreateOrderPayload = {
     };
 };
 
+export type OrderItem = {
+  _id: string;
+  product: string;
+  quantity: number;
+  price: number;
+};
+
 // export type UserOrders = {
 //     _id: string;
 //     user: string;

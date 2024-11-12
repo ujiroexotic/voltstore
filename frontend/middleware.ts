@@ -3,7 +3,7 @@ import type { NextRequest } from "next/server";
 
 export function middleware(request: NextRequest) {
   // const userId = request.cookies.get("userId")?.value;
-  const authToken = request.cookies.get("authToken")?.value;
+  const authToken = request.cookies.get("userAuth")?.value;
   // console.log("authToken", authToken);
   // console.log("userId", userId);
   // If the user is not authenticated, redirect to the login page

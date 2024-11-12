@@ -20,7 +20,7 @@ const OrderTrackingPage = () => {
       orders.forEach((order: UserOrders) => {
         order.items.forEach((item: OrderItem) => {
           if (item.product.imageUrls && item.product.imageUrls[0]?.data) {
-            const IMG = new IMGS([new Uint8Array(item.product.imageUrls[0].data)], {
+            const IMG = new Blob([new Uint8Array(item.product.imageUrls[0].data)], {
               type: item.product.imageUrls[0].type,
             });
             const url = URL.createObjectURL(IMG);
