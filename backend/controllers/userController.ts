@@ -66,6 +66,7 @@ export const loginUser = async (req: Request, res: Response) => {
 
   try {
     const user = await User.findOne({ email });
+    // console.log(user);
     if (!user || !(await bcrypt.compare(password, user.password))) {
       return res.status(401).json({ message: "Invalid credentials" });
     }
@@ -77,12 +78,21 @@ export const loginUser = async (req: Request, res: Response) => {
         expiresIn: "30d",
       }
     );
-    res.cookie("authToken", token, {
-      httpOnly: true,
-      maxAge: 24 * 60 * 60 * 1000,
-      sameSite: "none",
-      secure: true, // Ensure the cookie is only sent over HTTPS
-    });
+    if (user.role === "admin") {
+      res.cookie("authToken", token, {
+        httpOnly: true,
+        maxAge: 24 * 60 * 60 * 1000,
+        sameSite: "none",
+        secure: true, // Ensure the cookie is only sent over HTTPS
+      });
+    } else {
+      res.cookie("userAuth", token, {
+        httpOnly: true,
+        maxAge: 24 * 60 * 60 * 1000,
+        sameSite: "none",
+        secure: true, // Ensure the cookie is only sent over HTTPS
+      });
+    }
 
     res.status(200).json({ userId: user._id });
   } catch (error) {
@@ -94,7 +104,21 @@ export const loginUser = async (req: Request, res: Response) => {
 // logout user
 export const logoutUser = async (req: Request, res: Response) => {
   try {
-    res.clearCookie("authToken"); // Clear the JWT cookie
+    if (req.user?.role === "admin") {
+      res.clearCookie("authToken", {
+        httpOnly: true,
+        sameSite: "none",
+        secure: true,
+        path: "/",
+      });
+    } else {
+      res.clearCookie("userAuth", {
+        httpOnly: true,
+        sameSite: "none",
+        secure: true,
+        path: "/",
+      });
+    }
     res.status(200).json({ message: "User logged out successfully" });
   } catch (error) {
     res.status(500).json({ message: "Server error", error });
