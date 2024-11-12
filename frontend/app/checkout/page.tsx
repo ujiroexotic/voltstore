@@ -13,10 +13,13 @@ import { useEffect, useState } from "react";
 import { useCreateOrderMutation } from "@/redux/slices/ordersApiSlice";
 import { Product } from "@/types/products";
 import { useRouter } from "next/navigation";
+import { useCart } from "@/components/CartContext";
 
 export default function Checkout() {
   const router = useRouter();
-  const [cartItems, setCartItems] = useState<Product[]>([]);
+  // const [cartItems, setCartItems] = useState<Product[]>([]);
+  const { cartItems, removeFromCart, updateQuantity } = useCart(); // Get cart items and context functions
+  console.log("carts ", cartItems);
   const [total, setTotal] = useState(0);
   const [shippingAddress, setShippingAddress] = useState({
     address: "",
@@ -36,11 +39,8 @@ export default function Checkout() {
     useCreateOrderMutation();
 
   useEffect(() => {
-    const storedItems = JSON.parse(
-      localStorage.getItem("cart") || "[]"
-    ) as Product[];
-    setCartItems(storedItems);
-    setTotal(storedItems.reduce((acc, item) => acc + item.price, 0));
+    // setCartItems(storedItems);
+    setTotal(cartItems.reduce((acc, item) => acc + (item.price * item.quantity), 0));
   }, []);
 
   const handleConfirmOrder = async () => {
@@ -49,7 +49,7 @@ export default function Checkout() {
       const orderItems = cartItems.map((item) => ({
         product: item._id,
         quantity: 1, // Adjust quantity as needed
-        price: item.price,
+        price: item.price * item.quantity,
       }));
       console.log({
         items: orderItems,
@@ -86,7 +86,7 @@ export default function Checkout() {
                   key={item._id}
                 >
                   <span>{item.name}</span>
-                  <span>${item.price.toFixed(2)}</span>
+                  <span>${(item.price * item.quantity).toFixed(2)}</span>
                 </div>
               ))}
               <div className="flex justify-between text-sm font-semibold">

@@ -14,8 +14,12 @@ export const getAllOrders = createAsyncThunk(
   async (_, { rejectWithValue }) => {
     try {
       const response = await axios.get(
-        `${process.env.REACT_APP_BACKEND_API_URL}/api/orders`
+        `${process.env.REACT_APP_BACKEND_API_URL}/api/orders`,
+        {
+          withCredentials: true,
+        }
       );
+      console.log("Order response: ", response);
       return response.data;
     } catch (error) {
       return rejectWithValue(
@@ -32,7 +36,10 @@ export const addOrder = createAsyncThunk(
     try {
       const response = await axios.post(
         `${process.env.REACT_APP_BACKEND_API_URL}/api/orders`,
-        data
+        data,
+        {
+          withCredentials: true, // only needed if cookies are used for auth
+        }
       );
       return response.data;
     } catch (error) {
@@ -72,7 +79,10 @@ export const deleteOrder = createAsyncThunk(
   async (id, { rejectWithValue }) => {
     try {
       const response = await axios.delete(
-        `${process.env.REACT_APP_BACKEND_API_URL}/api/orders/${id}`
+        `${process.env.REACT_APP_BACKEND_API_URL}/api/orders/${id}`,
+        {
+          withCredentials: true, // only needed if cookies are used for auth
+        }
       );
       return response.data;
     } catch (error) {
