@@ -90,7 +90,7 @@ const OrderTrackingPage = () => {
               <p className="text-gray-600">{order.shippingAddress.address}, {order.shippingAddress.street},
                  {order.shippingAddress.city}, {order.shippingAddress.state} 
                  {order.shippingAddress.country}</p>
-                 <p className="text-gray-500 mt-2">Ordered on: {new Date(order.createAt).toLocaleDateString()}</p>
+                 <p className="text-gray-500 mt-2">Ordered on: {new Date(order.createdAt).toLocaleDateString()}</p>
           </div>
           ))
         ): (
