@@ -58,7 +58,6 @@ const OrderTrackingPage = () => {
             <h2 className="text-xl font-semibold mb-2">Order ID: {order._id}</h2>
             <p className="text-gray-600">Status: <span className="font-medium">{order.status}</span></p>
             <p className="text-gray-600">Paid: <span className="font-medium">{order.isPaid ? "Yes" : "No"}</span></p>
-            <p className="text-gray-600">Delivered: <span className="font-medium">{order.isDelivered ? "Yes" : "No"}</span></p>            
             <h3 className="text-lg font-medium mt-4">Items: </h3>
             
             <ul className="mt-2 space-y-4">
