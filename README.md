@@ -3,20 +3,22 @@ An online Ecommerce
 
 ## Table of Contents
 1. [Introduction](#introduction)
-2. [Features](#features)
-3. [Installation](#installation)
+2. [Technology Stack](#technology-stack)
+3. [Project Structure](#project-structure)
+4. [Features](#features)
+5. [Installation](#installation)
    - [Client Side](#client-side)
    - [Admin Side](#admin-side)
    - [Backend API](#backend-api)
-4. [Usage](#usage)
+6. [Usage](#usage)
    - [Client Side](#client-side-usage)
    - [Admin Side](#admin-side-usage)
    - [Backend API Usage](#backend-api-usage)
-5. [API Documentation](#api-documentation)
-6. [Routes and Controllers Overview](#routes-and-controllers-overview)
-7. [Contributing](#contributing)
-8. [Authors](#authors)
-9. [License](#license)
+7. [API Documentation](#api-documentation)
+8. [Routes and Controllers Overview](#routes-and-controllers-overview)
+9. [Contributing](#contributing)
+10. [Authors](#authors)
+11. [License](#license)
 
 ## Introduction
 Voltstore is an e-commerce website designed to provide consumers with a reliable online shopping environment with a wide range of products at low prices.
@@ -32,9 +34,283 @@ Voltstore is an e-commerce website designed to provide consumers with a reliable
 7. **Mobile Responsiveness**: Optimized for mobile devices to ensure a smooth experience on smartphones and tablets.
 9. **Order Tracking**: Customers can track their orders through the website.
 10. **Analytics and Reporting**: Tools to analyze user behavior, sales performance, and inventory status.
-13. **SEO Optimization**: Built-in tools to improve search engine visibility and attract organic traffic.
-18. **Advanced Filter Options**: Unique filtering options for enhancing the shopping experience by helping customers find exactly what they want.
-    
+11. **SEO Optimization**: Built-in tools to improve search engine visibility and attract organic traffic.
+12. **Advanced Filter Options**: Unique filtering options for enhancing the shopping experience by helping customers find exactly what they want.
+
+---
+
+## Technology Stack
+
+### Frontend
+- **Next.js** (TypeScript) - Server-rendered React framework for building optimized, scalable web applications.
+- **React.js** (JavaScript) - Used for component-based UI development.
+- **shadcn** - Utility-first component library for custom styling and components.
+- **Material UI** - UI library providing pre-styled components to ensure a modern, responsive design.
+
+### Backend
+- **Node.js** - JavaScript runtime used for building fast and scalable server applications.
+- **Express.js** - Web framework for Node.js to create RESTful APIs and manage server-side logic.
+- **MongoDB** - NoSQL database for efficient, flexible data storage and retrieval.
+
+### Authentication
+- **JWT (JSON Web Token)** - Secure, stateless authentication method for handling user sessions.
+
+---
+
+## Project Structure
+```markdown
+.
+├── README.md
+├── admin
+│   ├── package-lock.json
+│   ├── package.json
+│   ├── public
+│   │   ├── _redirects
+│   │   ├── favicon.ico
+│   │   ├── index.html
+│   │   ├── logo.png
+│   │   ├── logo192.png
+│   │   ├── logo512.png
+│   │   ├── manifest.json
+│   │   └── robots.txt
+│   └── src
+│       ├── App.css
+│       ├── App.js
+│       ├── App.test.js
+│       ├── assets
+│       │   └── images
+│       │       └── doc.png
+│       ├── components
+│       │   ├── UnavalableDates
+│       │   │   └── UnavalableDates.js
+│       │   ├── appointments
+│       │   │   ├── AppointmentDetail.js
+│       │   │   ├── Appointments.js
+│       │   │   ├── Dialog.js
+│       │   │   └── TableData.js
+│       │   ├── category
+│       │   │   ├── AddCategory.js
+│       │   │   ├── Category.js
+│       │   │   └── CategoryData.js
+│       │   ├── customers
+│       │   │   ├── CustomerData.js
+│       │   │   └── Customers.js
+│       │   ├── dashboard
+│       │   │   ├── Chart.js
+│       │   │   ├── Dashboard.js
+│       │   │   ├── Deposits.js
+│       │   │   ├── Orders.js
+│       │   │   ├── Title.js
+│       │   │   └── listItems.js
+│       │   ├── departments
+│       │   │   └── Departments.js
+│       │   ├── doctors
+│       │   │   ├── AddDoctor.js
+│       │   │   ├── DoctorDetails.js
+│       │   │   ├── Doctors.js
+│       │   │   ├── DoctorsData.js
+│       │   │   └── DoctorsDialog.js
+│       │   ├── login
+│       │   │   ├── Login.js
+│       │   │   └── login.css
+│       │   ├── management
+│       │   │   ├── AddAdmin.js
+│       │   │   ├── Admins.js
+│       │   │   ├── EditableDate.js
+│       │   │   └── UnAvailableDates.js
+│       │   ├── orders
+│       │   │   ├── Orders.js
+│       │   │   └── OrdersData.js
+│       │   ├── pageNotFound
+│       │   │   └── PageNotFound.js
+│       │   ├── products
+│       │   │   ├── AddProduct.js
+│       │   │   ├── Products.js
+│       │   │   └── ProductsData.js
+│       │   └── transactions
+│       │       ├── TransactionTable.js
+│       │       └── Transactions.js
+│       ├── global.css
+│       ├── index.css
+│       ├── index.js
+│       ├── logo.svg
+│       ├── reportWebVitals.js
+│       ├── setupTests.js
+│       ├── state
+│       │   ├── adminSlice.js
+│       │   ├── appointmentSlice.js
+│       │   ├── categorySlice.js
+│       │   ├── departmentSlice.js
+│       │   ├── dialogSlice.js
+│       │   ├── doctorSlice.js
+│       │   ├── orderSlice.js
+│       │   ├── productSlice.js
+│       │   ├── store.js
+│       │   ├── transactionSlice.js
+│       │   ├── unAvailableDatesSlice.js
+│       │   └── userSlice.js
+│       ├── styles
+│       │   └── navbar.css
+│       └── utils
+│           ├── ProtectedRoute.js
+│           └── PublicRoute.js
+├── backend
+│   ├── README.md
+│   ├── app.ts
+│   ├── config
+│   │   └── db.ts
+│   ├── controllers
+│   │   ├── adminController.ts
+│   │   ├── cartController.ts
+│   │   ├── categoryController.ts
+│   │   ├── orderController.ts
+│   │   ├── productController.ts
+│   │   ├── transactionController.ts
+│   │   └── userController.ts
+│   ├── dist
+│   │   ├── app.js
+│   │   ├── config
+│   │   │   └── db.js
+│   │   ├── controllers
+│   │   │   ├── adminController.js
+│   │   │   ├── cartController.js
+│   │   │   ├── categoryController.js
+│   │   │   ├── orderController.js
+│   │   │   ├── productController.js
+│   │   │   └── userController.js
+│   │   ├── middlewares
+│   │   │   ├── authMiddleware.js
+│   │   │   ├── authorize.js
+│   │   │   ├── errorMiddleware.js
+│   │   │   ├── file.js
+│   │   │   ├── logger.js
+│   │   │   └── validation.js
+│   │   ├── models
+│   │   │   ├── Product.js
+│   │   │   ├── cart.js
+│   │   │   ├── category.js
+│   │   │   ├── order.js
+│   │   │   ├── payment.js
+│   │   │   ├── review.js
+│   │   │   ├── types.js
+│   │   │   └── user.js
+│   │   ├── routes
+│   │   │   ├── adminRoutes.js
+│   │   │   ├── cartRoutes.js
+│   │   │   ├── categoryRoutes.js
+│   │   │   ├── orderRoutes.js
+│   │   │   ├── productRoutes.js
+│   │   │   └── userRoutes.js
+│   │   └── services
+│   │       └── upload.js
+│   ├── express.d.ts
+│   ├── middlewares
+│   │   ├── authMiddleware.ts
+│   │   ├── authorize.ts
+│   │   ├── errorMiddleware.ts
+│   │   ├── file.ts
+│   │   ├── logger.ts
+│   │   └── validation.ts
+│   ├── models
+│   │   ├── Product.ts
+│   │   ├── cart.ts
+│   │   ├── category.ts
+│   │   ├── order.ts
+│   │   ├── payment.ts
+│   │   ├── review.ts
+│   │   ├── types.ts
+│   │   └── user.ts
+│   ├── package-lock.json
+│   ├── package.json
+│   ├── routes
+│   │   ├── adminRoutes.ts
+│   │   ├── cartRoutes.ts
+│   │   ├── categoryRoutes.ts
+│   │   ├── orderRoutes.ts
+│   │   ├── productRoutes.ts
+│   │   ├── transactionRoute.ts
+│   │   └── userRoutes.ts
+│   ├── services
+│   │   └── upload.ts
+│   ├── tsconfig.json
+│   ├── types
+│   └── uploads
+│       ├── categories
+│       └── products
+└── frontend
+    ├── README.md
+    ├── app
+    │   ├── (auth)
+    │   │   ├── login
+    │   │   │   └── page.tsx
+    │   │   └── register
+    │   │       └── page.tsx
+    │   ├── about
+    │   │   └── page.tsx
+    │   ├── cart
+    │   │   └── page.tsx
+    │   ├── checkout
+    │   │   └── page.tsx
+    │   ├── clientProvider.tsx
+    │   ├── collection
+    │   │   ├── [id]
+    │   │   │   └── page.tsx
+    │   │   └── page.tsx
+    │   ├── contact
+    │   │   └── page.tsx
+    │   ├── favicon.ico
+    │   ├── fonts
+    │   │   ├── GeistMonoVF.woff
+    │   │   └── GeistVF.woff
+    │   ├── globals.css
+    │   ├── layout.tsx
+    │   ├── orders
+    │   │   └── page.tsx
+    │   └── page.tsx
+    ├── components
+    │   ├── Cart.tsx
+    │   ├── CartContext.tsx
+    │   ├── Footer.tsx
+    │   ├── Header.tsx
+    │   └── ui
+    │       ├── avatar.tsx
+    │       ├── button.tsx
+    │       ├── card.tsx
+    │       ├── dropdown-menu.tsx
+    │       ├── input.tsx
+    │       └── sheet.tsx
+    ├── components.json
+    ├── context
+    │   └── AuthContext.tsx
+    ├── lib
+    │   ├── functions.ts
+    │   ├── types.ts
+    │   └── utils.ts
+    ├── middleware.ts
+    ├── next-env.d.ts
+    ├── next.config.ts
+    ├── package-lock.json
+    ├── package.json
+    ├── postcss.config.mjs
+    ├── public
+    │   └── logo.png
+    ├── redux
+    │   ├── slices
+    │   │   ├── authSlice.ts
+    │   │   ├── ordersApiSlice.ts
+    │   │   ├── productsApiSlice.ts
+    │   │   └── userApiSlice.ts
+    │   └── store.ts
+    ├── tailwind.config.ts
+    ├── tsconfig.json
+    └── types
+        ├── orders.ts
+        ├── products.ts
+        └── user.ts
+
+61 directories, 186 files
+```
+
 ## Installation
 
 ### Client Side
