@@ -16,7 +16,7 @@ const columnHelper = createMRTColumnHelper();
 
 const f = new Intl.DateTimeFormat("en-us", {
   dateStyle: "short",
-  timeStyle: "short",
+  // timeStyle: "short",
 });
 
 const csvConfig = mkConfig({
@@ -36,24 +36,8 @@ const TableData = () => {
   }, [dispatch]);
   const columns = useMemo(() => [
     {
-      accessorKey: "fname",
-      header: "First Name",
-      size: 220,
-    },
-    {
-      accessorKey: "lname",
-      header: "Last Name",
-      size: 220,
-    },
-    {
-      accessorKey: "phone",
-      header: "Phone",
-      size: 220,
-    },
-    {
-      accessorKey: "email",
-      header: "Email",
-      enableClickToCopy: true,
+      accessorKey: "order",
+      header: "Order ID",
       size: 220,
     },
     {
@@ -62,19 +46,24 @@ const TableData = () => {
       size: 220,
     },
     {
-      accessorKey: "currency",
-      header: "Currency",
+      accessorKey: "paymentMethod",
+      header: "Payment Method",
       size: 220,
     },
     {
-      accessorKey: "tx_ref",
-      header: "Transaction Ref",
+      accessorKey: "transactionId",
+      header: "Transaction ID",
       enableClickToCopy: true,
+      size: 500,
+    },
+    {
+      accessorKey: "status",
+      header: "Status",
       size: 220,
     },
     {
-      accessorFn: (row) => new Date(row.createdAt), //convert to Date for sorting and filtering
-      id: "createdAt",
+      accessorFn: (row) => new Date(row.paidAt), //convert to Date for sorting and filtering
+      id: "paidAt",
       header: "Payment Date",
       filterVariant: "date",
       filterFn: "lessThan",
@@ -91,25 +80,29 @@ const TableData = () => {
 
   const handleExportPdfRows = (rows) => {
     const doc = new jsPDF();
+
+    // Filter out the "Order ID" column and get the headers for other columns
+    const tableHeaders = columns
+      .filter((column) => column.header !== "Order ID") // Exclude "Order ID"
+      .map((column) => column.header); // Extract the header names
+
+    // Map rows data based on the filtered headers
     const tableData = rows.map((row) => [
-      row.fname,
-      row.lname,
-      row.phone,
-      row.email,
       row.amount,
-      row.currency,
-      row.tx_ref,
-      f.format(new Date(row.updatedAt)),
+      row.paymentMethod,
+      row.transactionId,
+      row.status,
+      f.format(new Date(row.paidAt)),
     ]);
-    const tableHeaders = columns.map((c) => c.header);
 
     autoTable(doc, {
-      head: [tableHeaders],
+      head: [tableHeaders], // Use filtered headers here
       body: tableData,
     });
 
     doc.save("VoltStore-Transaction-Data.pdf");
   };
+
   const handleExportRows = (rows) => {
     const rowData = rows.map((row) => row.original);
     const csv = generateCsv(csvConfig)(rowData);
