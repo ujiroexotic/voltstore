@@ -1,6 +1,15 @@
 # Voltstore
 An online Ecommerce
 
+## Screenshots
+![s1](.res/s1.png)
+![s2](.res/Carosel1.png)
+![s3](.res/Carosel2.png)
+![s4](.res/Movie.png)
+![s5](.res/Register.png)
+![s6](.res/Map.png)
+
+
 ## Table of Contents
 1. [Introduction](#introduction)
 2. [Technology Stack](#technology-stack)
