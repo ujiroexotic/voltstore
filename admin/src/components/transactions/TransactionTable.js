@@ -16,7 +16,6 @@ const columnHelper = createMRTColumnHelper();
 
 const f = new Intl.DateTimeFormat("en-us", {
   dateStyle: "short",
-  // timeStyle: "short",
 });
 
 const csvConfig = mkConfig({
