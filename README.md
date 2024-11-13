@@ -2,7 +2,7 @@
 An online Ecommerce
 
 ## Screenshots
-![s1](.res/s1.png)
+![s1](assets/home.png)
 ![s2](.res/Carosel1.png)
 ![s3](.res/Carosel2.png)
 ![s4](.res/Movie.png)
