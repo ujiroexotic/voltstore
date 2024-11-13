@@ -1,6 +1,3 @@
-# Project Name
-Voltstore
-
 # Voltstore
 An online Ecommerce
 
@@ -27,41 +24,17 @@ Voltstore is an e-commerce website designed to provide consumers with a reliable
 ## Features
 
 1. **User-Friendly Interface**: Intuitive navigation and a clean layout to enhance the shopping experience.
-2. **Product Catalog**: Detailed product pages with high-quality images, descriptions, specifications, and customer reviews.
+2. **Product Catalog**: Detailed product pages with high-quality images, descriptions, and specifications.
 3. **Search Functionality**: Advanced search options with filters for categories, prices, sizes, and more.
 4. **Shopping Cart**: Easy-to-use cart that allows users to add, edit, or remove items before checkout.
 5. **Secure Checkout Process**: Streamlined, secure checkout with multiple payment options (credit/debit cards, PayPal, etc.).
 6. **User Accounts**: Option for customers to create accounts to save their information, track orders, and manage preferences.
 7. **Mobile Responsiveness**: Optimized for mobile devices to ensure a smooth experience on smartphones and tablets.
-8. **Inventory Management**: Real-time tracking of inventory levels to prevent overselling and manage stock efficiently.
 9. **Order Tracking**: Customers can track their orders through the website.
-10. **Customer Support**: Integration of live chat, FAQs, and support ticket systems for customer inquiries.
-11. **Marketing Tools**: Features like discount codes, promotions, and email marketing integration to drive sales.
-12. **Analytics and Reporting**: Tools to analyze user behavior, sales performance, and inventory status.
+10. **Analytics and Reporting**: Tools to analyze user behavior, sales performance, and inventory status.
 13. **SEO Optimization**: Built-in tools to improve search engine visibility and attract organic traffic.
-14. **Social Media Integration**: Options for sharing products on social media and linking to social accounts.
-15. **Wishlist Functionality**: Allow users to save items for future purchase.
-16. **Multi-Language and Multi-Currency Support**: Catering to international customers with localized experiences.
-17. **Security Features**: SSL certificates and compliance with payment security standards to protect customer data.
-18. **Content Management System (CMS)**: Easy management of website content, including blogs, FAQs, and guides.
-
-### Unique Functionalities or Components
-1. **Augmented Reality (AR) Integration**: Allow customers to visualize products in their own environment (e.g., furniture, home decor) using AR technology.
-2. **Personalized Recommendations**: Use AI to analyze customer behavior and provide tailored product suggestions based on browsing and purchase history.
-3. **Subscription Services**: Offer products on a subscription basis (e.g., monthly deliveries) for items like beauty products or groceries.
-4. **Live Chat Support with AI**: Implement AI-powered chatbots for instant customer assistance, capable of handling inquiries and guiding users through the buying process.
-5. **Social Shopping Features**: Enable customers to share their purchases or favorite products on social media directly from the site, or allow collaborative shopping experiences with friends.
-6. **Gamification Elements**: Introduce loyalty programs, badges, or challenges that reward customers for completing certain actions (e.g., reviews, referrals).
-7. **Dynamic Pricing**: Implement pricing algorithms that adjust prices based on demand, competition, or customer behavior to maximize sales.
-8. **User-Generated Content**: Create sections for customer photos and reviews, encouraging users to share their experiences and enhancing community engagement.
-9. **Virtual Try-On**: For fashion and beauty products, allow customers to upload photos and virtually try on items before purchasing.
-10. **Advanced Filter Options**: Unique filtering options based on mood, style, or occasion, enhancing the shopping experience by helping customers find exactly what they want.
-11. **Flash Sales and Countdown Timers**: Create urgency with limited-time offers and countdown timers to encourage immediate purchases.
-12. **Sustainability Tracking**: Provide information on the sustainability of products, including sourcing, materials, and carbon footprints, appealing to eco-conscious consumers.
-13. **Multi-Vendor Marketplace**: Allow third-party sellers to list products on your site, expanding your catalog and creating a diverse shopping environment.
-14. **Interactive Size Guides**: Use visual guides or videos to help customers choose the right sizes, reducing returns due to sizing issues.
-15. **Blockchain for Authenticity Verification**: Implement blockchain technology to verify product authenticity, especially for luxury items.
-
+18. **Advanced Filter Options**: Unique filtering options for enhancing the shopping experience by helping customers find exactly what they want.
+    
 ## Installation
 
 ### Client Side
@@ -117,49 +90,34 @@ Voltstore is an e-commerce website designed to provide consumers with a reliable
 
 ## Usage
 
-### Client Side
+### Client Side Usage
 
-1. **Installation and Access**
-   - **Download**: Install the app from the App Store or Google Play for mobile devices. For web apps, simply go to the website.
-   - **Sign Up / Log In**: Create an account by providing your email and password, or log in if you already have an account.
+1. **Browsing Products**  
+   - Explore the available products by browsing through categories or viewing all items.
+   - Each product includes details such as images, descriptions, price, and available stock.
 
-2. **Exploring the Interface**
-   - **Homepage**: Start on the homepage, where you’ll find featured products, promotions, and navigation links.
-   - **Navigation Menu**: Use the menu to access different product categories.
+2. **Product Categories**  
+   - Filter products by categories to find specific types of items, making browsing easier and more personalized.
 
-3. **Searching for Products**
-   - **Search Bar**: Type in keywords to find specific products.
-   - **Filters**: Use filters (e.g., size, color, price) to narrow down your search results.
+3. **Shopping Cart**  
+   - Add items to the cart with a single click and adjust quantities as needed.
+   - View cart summary to see the total price and make final adjustments before checkout.
 
-4. **Viewing Product Details**
-   - **Product Listings**: Click on any product to see detailed information, including images, descriptions, specifications, and reviews.
-   - **Add to Cart**: Choose any options (like size or quantity) and click “Add to Cart.”
+4. **Checkout Process**  
+   - Proceed to checkout after finalizing the cart.
+   - Enter shipping information, select a payment method, and review the order before confirming.
 
-5. **Managing Your Cart**
-   - **View Cart**: Click on the cart icon to see items you’ve added.
-   - **Edit Cart**: Adjust quantities or remove items if needed.
-   - **Promo Codes**: Enter any discount codes before checkout.
+5. **User Registration and Login**  
+   - Create an account to save order history, track orders, and simplify future purchases.
+   - Registered users can log in to access saved addresses, payment options, and track ongoing orders.
 
-6. **Checkout Process**
-   - **Proceed to Checkout**: Click on the “Checkout” button when you’re ready to purchase.
-   - **Shipping Information**: Fill in your shipping address and select a delivery method.
-   - **Payment Information**: Choose your payment method (credit/debit card, PayPal, etc.) and enter the necessary details.
+6. **Order Placement and Tracking**  
+   - Place orders after checkout and receive a confirmation email with order details.
+   - Track the status of placed orders through the "My Orders" section, showing updates from processing to delivery.
 
-7. **Confirming Your Order**
-   - **Review Order**: Double-check your order summary, including items, shipping, and payment details.
-   - **Place Order**: Click the button to confirm your purchase. You’ll typically receive an order confirmation via email.
-
-8. **Tracking Orders**
-   - **Order History**: Access your account to track current and past orders.
-   - **Notifications**: Enable notifications to stay updated on shipping and delivery status.
-
-9. **Customer Support**
-   - **Help Section**: Look for FAQs or customer service options for assistance.
-   - **Contact Support**: Use chat, email, or phone options if you have specific queries or issues.
-
-10. **Account Management**
-    - **Profile Settings**: Update your personal information, payment methods, and addresses as needed.
-    - **Wishlist**: Save products to a wishlist for future reference.
+7. **Contact and About Pages**  
+   - Visit the Contact page for customer support inquiries or feedback.
+   - Learn about the company and its values on the About page for a deeper connection with the brand.
 
 ### Admin Side Usage
 1. Accessing the Admin Panel
@@ -219,42 +177,6 @@ requests` (Python), or `http.client` (Java).
 https://api-voltstore.up.railway.app/
 ```
 
-**Endpoints**
-1. **Get All Items**
-   - **Endpoint**: `/items`
-   - **Method**: `GET`
-   - **Query Parameters**:
-     - `page` (optional, integer): Page number for pagination.
-     - `limit` (optional, integer): Number of items per page (default is 10).
-
-2. **Get Item by ID**
-   - **Endpoint**: `/items/{id}`
-   - **Method**: `GET`
-   - **Path Parameters**:
-     - `id` (required, integer): The ID of the item.
-
-3. **Create a New Item**
-   - **Endpoint**: `/items`
-   - **Method**: `POST`
-   - **Request Body**:
-     - `name` (required, string): The name of the item.
-     - `description` (optional, string): Description of the item.
-
-4. **Update an Item**
-   - **Endpoint**: `/items/{id}`
-   - **Method**: `PUT`
-   - **Path Parameters**:
-     - `id` (required, integer): The ID of the item.
-   - **Request Body**:
-     - `name` (optional, string): The updated name of the item.
-     - `description` (optional, string): Updated description of the item.
-
-5. **Delete an Item**
-   - **Endpoint**: `/items/{id}`
-   - **Method**: `DELETE`
-   - **Path Parameters**:
-     - `id` (required, integer): The ID of the item to delete.
-
 **Authentication**
 - **API Key**: Required for all requests. Include in the header as:
    ```http
@@ -282,7 +204,6 @@ The **User model** manages user accounts (e.g., customers and admins). You’ll 
 - `updateUserProfile`
 - `deleteUser`
 
----
 
 ### 2. **Product Routes and Controller**
 The **Product model** will handle product data, like listings and categories.
@@ -337,6 +258,43 @@ The **Order model** tracks customer orders, including order status and history.
 - `updateOrderStatus`
 - `cancelOrder`
 
+
+### 5. **Category Routes and Controller**
+The **Category model** manages product categories.
+
+**Routes:**
+- **GET** `/api/category` – Get all categories
+- **POST** `/api/category` – Create a new category
+- **GET** `/api/category/:id` – Get a single category by ID
+- **PUT** `/api/category/:id` – Update a category by ID
+- **DELETE** `/api/category/:id` – Delete a category by ID
+- **DELETE** `/api/category` – Delete all categories
+
+**Controller Functions:**
+- `getAllCategories`
+- `createCategory`
+- `getCategoryById`
+- `updateCategory`
+- `deleteCategory`
+- `deleteAllCategory`
+
+### 6. **Transaction Routes and Controller**
+The **Transaction model** tracks financial transactions.
+
+**Routes:**
+- **POST** `/api/transaction` – Create a new transaction (admin only)
+- **GET** `/api/transaction/total` – Get the total revenue (admin only)
+- **GET** `/api/transaction` – Get all transactions (admin only)
+- **GET** `/api/transaction/:id` – Get a single transaction by ID (admin only)
+- **DELETE** `/api/transaction/:id` – Delete a transaction (admin only)
+
+**Controller Functions:**
+- `createTransaction`
+- `getTotalRevenue`
+- `getTransactions`
+- `getTransactionById`
+- `deleteTransaction`
+
 ---
 
 ## **Summary Table**
@@ -347,10 +305,13 @@ The **Order model** tracks customer orders, including order status and history.
 | **Product** | 5 Routes   | `getAllProducts`, `getProductById`, `createProduct`, `updateProduct`, `deleteProduct` |
 | **Cart**    | 5 Routes   | `getCart`, `addToCart`, `updateCartItem`, `removeFromCart`, `clearCart` |
 | **Order**   | 6 Routes   | `placeOrder`, `getAllOrders`, `getUserOrders`, `getOrderById`, `updateOrderStatus`, `cancelOrder` |
+| **Category**| 6 Routes   | `getAllCategories`, `createCategory`, `getCategoryById`, `updateCategory`, `deleteCategory`, `deleteAllCategory` |
+| **Transaction**| 5 Routes | `createTransaction`, `getTransactions`, `getTransactionById`, `updateTransactionStatus`, `deleteTransaction`, `getTotalRevenue` |
 
 ## **Additional Considerations**
-- **Authentication Middleware**: You’ll need middleware to protect routes (e.g., only logged-in users can access their cart, only admins can manage products).
+- **Authentication Middleware**: You'll need middleware to protect routes (e.g., only logged-in users can access their cart, only admins can manage products).
 - **Validation Middleware**: Use libraries like `Joi` or `express-validator` to validate request data.
+
 
 ## Contributing
 
