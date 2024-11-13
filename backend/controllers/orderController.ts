@@ -86,6 +86,62 @@ export const getOrderById = async (req: Request, res: Response) => {
   }
 };
 
+export const getAllOrdersThisWeekByDay = async (req: Request, res: Response): Promise<Response> => {
+  try {
+    const now = new Date();
+    const startOfWeek = new Date(now);
+    startOfWeek.setUTCDate(now.getUTCDate() - now.getUTCDay()); // Set to start of the current week (Sunday)
+    startOfWeek.setUTCHours(0, 0, 0, 0); // Set to midnight (00:00) at the beginning of the week
+
+    const orders = await Order.find({
+      createdAt: { $gte: startOfWeek, $lt: now },
+    }).sort({ createdAt: -1 });
+
+    if (!orders || orders.length === 0) {
+      return res.status(404).send("Orders not found");
+    }
+
+    // Initialize result object with each day of the week
+    const result: Record<string, number> = {
+      Sunday: 0,
+      Monday: 0,
+      Tuesday: 0,
+      Wednesday: 0,
+      Thursday: 0,
+      Friday: 0,
+      Saturday: 0,
+    };
+
+    // Helper function to get the day of the week from a date
+    const getDayOfWeek = (dateStr: Date): number => {
+      return new Date(dateStr).getUTCDay();
+    };
+
+    // Map day indexes to names
+    const dayMap: string[] = [
+      "Sunday",
+      "Monday",
+      "Tuesday",
+      "Wednesday",
+      "Thursday",
+      "Friday",
+      "Saturday",
+    ];
+
+    // Iterate over each order and count orders by day of the week
+    orders.forEach((order) => {
+      const dayIndex = getDayOfWeek(order.createdAt);
+      const dayName = dayMap[dayIndex];
+      result[dayName]++;
+    });
+
+    return res.status(200).json(result);
+  } catch (error) {
+    return res.status(500).send("Server error");
+  }
+};
+
+
 // Update order status (Admin only)
 export const updateOrderStatus = async (req: Request, res: Response) => {
   const { status } = req.body;

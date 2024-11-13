@@ -5,7 +5,8 @@ import {
   getUserOrders,
   getOrderById,
   updateOrderStatus,
-  cancelOrder
+  cancelOrder,
+  getAllOrdersThisWeekByDay
 } from '../controllers/orderController';
 import { protect, admin } from '../middlewares/authMiddleware';
 
@@ -13,6 +14,9 @@ const router = express.Router();
 
 // Route to place a new order
 router.post('/', protect, placeOrder);
+
+// Route to get All order of this week with interval of 7 days (admin only)
+router.get('/thisWeek', protect, admin, getAllOrdersThisWeekByDay);
 
 // Route to get all orders (admin only)
 router.get('/', protect, admin, getAllOrders);
