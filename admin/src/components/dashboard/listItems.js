@@ -40,17 +40,17 @@ const MainListItems = () => {
         </ListItemIcon>
         <ListItemText primary="Products" />
       </ListItemButton>
-      <ListItemButton onClick={() => goTo("/customers")}>
-        <ListItemIcon>
-          <FaUserDoctor style={{ fontSize: "20px" }} />
-        </ListItemIcon>
-        <ListItemText primary="Customers" />
-      </ListItemButton>
       <ListItemButton onClick={() => goTo("/orders")}>
         <ListItemIcon>
           <VscListUnordered style={{ fontSize: "20px" }} />
         </ListItemIcon>
         <ListItemText primary="Orders" />
+      </ListItemButton>
+      <ListItemButton onClick={() => goTo("/customers")}>
+        <ListItemIcon>
+          <FaUserDoctor style={{ fontSize: "20px" }} />
+        </ListItemIcon>
+        <ListItemText primary="Customers" />
       </ListItemButton>
       <ListItemButton onClick={() => goTo("/transactions")}>
         <ListItemIcon>
@@ -81,21 +81,15 @@ export const SecondaryListItems = () => {
       <ListSubheader
         component="div"
         inset
-        sx={{ backgroundColor: "#159eec", color: "#fff", marginTop: "115px" }}
+        sx={{ backgroundColor: "#159eec", color: "#fff", marginTop: "85px" }}
       >
-        Managements
+        Admin
       </ListSubheader>
       {/* <ListItemButton sx={{height: "40px"}} onClick={() => goTo("/admins")}>
          <ListItemIcon>
           <MdManageAccounts style={{ fontSize: "25px" }} />
         </ListItemIcon>
         <ListItemText primary="Admins" /> 
-      </ListItemButton> */}
-      {/* <ListItemButton>
-         <ListItemIcon>
-          <AssignmentIcon />
-        </ListItemIcon>
-        <ListItemText primary="Unavailable dates" /> 
       </ListItemButton> */}
       {/* <ListItemButton onClick={() => goTo("/profile")}>
         <ListItemIcon>

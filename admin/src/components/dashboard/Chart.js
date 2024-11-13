@@ -4,8 +4,8 @@ import Title from "./Title";
 import axios from "axios";
 import { Alert } from "@mui/material";
 import { Fragment, useEffect, useState } from "react";
-import { getAllAppointmentsWithInterval } from "../../state/appointmentSlice";
 import { useDispatch, useSelector } from "react-redux";
+import { getAllOrdersThisWeekByDay } from "../../state/orderSlice";
 
 // Generate Sales Data
 function createData(time, amount) {
@@ -16,14 +16,14 @@ export default function Chart() {
   const theme = useTheme();
 
   const dispatch = useDispatch();
-  const { isLoading, appointmentWithInterval, error } = useSelector((store) => store.appointment);
+  const { isLoading, weeklyOrders, error } = useSelector((store) => store.orders);
 
-  // useEffect(() => {
-  //   dispatch(getAllAppointmentsWithInterval());
-  // }, []);
+  useEffect(() => {
+    dispatch(getAllOrdersThisWeekByDay());
+  }, []);
 
    // Transform the fetched data into the required format
-   const transformedData = Object.entries(appointmentWithInterval).map(
+   const transformedData = Object.entries(weeklyOrders).map(
     ([time, amount]) => createData(time, amount)
   );
 
@@ -61,7 +61,7 @@ export default function Chart() {
           ]}
           yAxis={[
             {
-              label: "Appointments",
+              label: "Orders",
               labelStyle: {
                 ...theme.typography.body1,
                 fill: theme.palette.text.primary,
