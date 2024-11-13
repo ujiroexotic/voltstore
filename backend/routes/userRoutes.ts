@@ -6,10 +6,14 @@ import {
   updateUserProfile,
   deleteUser,
   logoutUser,
+  getUsers,
 } from "../controllers/userController";
 import { admin, protect } from "../middlewares/authMiddleware";
 
 const router = express.Router();
+
+// Route to get all users (admin only)
+router.get("/getAll", protect, admin, getUsers)
 
 // Register a new user
 router.post("/register", registerUser);
@@ -22,8 +26,8 @@ router.post("/logout", logoutUser);
 
 // check if user is admin
 router.get("/checkAdmin", protect, admin, (req, res) => {
-  console.log("user:");
-  console.log(req.user);
+  // console.log("user:");
+  // console.log(req.user);
   res.status(201).send("Welcome Admin");
 });
 

@@ -14,6 +14,8 @@ export const protect = asyncHandler(
     let token;
 
     if (req.cookies) {
+      // console.log("token:")
+      // console.log(req.cookies.authToken)
       if (req.cookies.authToken) {
         token = req.cookies.authToken;
         try {
@@ -36,7 +38,7 @@ export const protect = asyncHandler(
         res.status(401).json({ message: "Not authorized, no token" });
       }
     } else {
-      res.status(401).json({ message: "Not authorized, no token" });
+      res.status(401).json({ message: "Not authorized,  no token" });
     }
   }
 );

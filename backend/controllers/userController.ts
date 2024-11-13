@@ -33,6 +33,16 @@ export const authUser = asyncHandler(async (req: Request, res: Response) => {
   }
 });
 
+// Return All users (admin only)
+export const getUsers = asyncHandler(async (req: Request, res: Response) => {
+  try {
+    const users = await User.find({}).sort({ createdAt: -1 });
+    res.status(200).json(users);
+  } catch (error) {
+    res.status(500).json({ message: "Server error", error });
+  }
+});
+
 // Register a new user
 export const registerUser = async (req: Request, res: Response) => {
   const { name, email, password, role = "customer" } = req.body;
