@@ -89,7 +89,7 @@ Voltstore is an e-commerce website designed to provide consumers with a reliable
    ```
 2. Navigate to the admin directory:
    ```bash
-   cd frontend
+   cd admin
    ```
 3. Install dependencies:
    ```bash
@@ -97,7 +97,7 @@ Voltstore is an e-commerce website designed to provide consumers with a reliable
    ```
 4. Start the admin application:
    ```bash
-   npm run dev
+   npm start
    ```
 
 ### Backend API 
