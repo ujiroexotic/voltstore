@@ -8,13 +8,19 @@ import { Button } from "@/components/ui/button";
 import { useGetProductsQuery } from "@/redux/slices/productsApiSlice";
 import { useCart } from "@/components/CartContext"; // Adjust the import path as needed
 import { Product } from "@/types/products";
+import { useGetCategoriesQuery } from "@/redux/slices/categoryApiSlice";
+import { Category } from "@/types/catgories";
 
 const HomePage: React.FC = () => {
   const { addToCart } = useCart();
   const { data: products = [], error, isLoading } = useGetProductsQuery();
+  const { data: categories = [] } = useGetCategoriesQuery();
 
+  console.log(categories);
   const [imageUrls, setImageUrls] = useState<{ [key: string]: string }>({});
-
+  const [categoryImageUrls, setCategoryImageUrls] = useState<{
+    [key: string]: string;
+  }>({});
   useEffect(() => {
     if (products.length > 0) {
       const urls: { [key: string]: string } = {};
@@ -36,6 +42,27 @@ const HomePage: React.FC = () => {
     }
   }, [products]);
 
+  useEffect(() => {
+    if (categories.length > 0) {
+      const urls: { [key: string]: string } = {};
+      categories.forEach((category: Category) => {
+        if (category.imageUrl && category.imageUrl?.data) {
+          const blob = new Blob([new Uint8Array(category.imageUrl.data.data)], {
+            type: category.imageUrl.contentType,
+          });
+          const url = URL.createObjectURL(blob);
+          urls[category._id] = url;
+        }
+      });
+      setCategoryImageUrls(urls);
+
+      // Clean up object URLs when component unmounts
+      return () => {
+        Object.values(urls).forEach((url) => URL.revokeObjectURL(url));
+      };
+    }
+  }, [categories]);
+
   return (
     <div className="bg-gradient-to-r from-blue-500 via-purple-600 to-pink-500 bg-background text-gray-900 min-h-screen">
       {/* Hero Section */}
@@ -56,7 +83,56 @@ const HomePage: React.FC = () => {
           </div>
         </Link>
       </section>
-
+      {/* Categories */}
+      <section className="py-16 px-6">
+        <h2 className="text-center text-4xl font-semibold text-white mb-10">
+          Shop By Category
+        </h2>
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-12">
+          {categories ? (
+            categories.map((category) => (
+              <div
+                key={category._id}
+                className="group rounded-lg overflow-hidden shadow-lg transform transition-all duration-300 hover:shadow-2xl hover:scale-105"
+              >
+                <div className="relative w-full h-64">
+                  {categoryImageUrls[category._id] ? (
+                    <Image
+                      src={categoryImageUrls[category._id]}
+                      alt={category.name}
+                      layout="fill"
+                      objectFit="cover"
+                      className="transition-transform duration-300 group-hover:scale-110"
+                    />
+                  ) : (
+                    <div className="w-full h-full bg-gray-300 flex items-center justify-center">
+                      <p className="text-gray-500">Image not available</p>
+                    </div>
+                  )}
+                  <div className="absolute inset-0 bg-black bg-opacity-30 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                </div>
+                <div className="p-4 bg-white">
+                  <h3 className="text-xl font-semibold text-gray-800 truncate max-w-full mb-2">
+                    {category.name}
+                  </h3>
+                  <p className="text-sm text-gray-600 line-clamp-2 h-12 overflow-hidden">
+                    {category.description}
+                  </p>
+                  <Link href={`/collection?category=${category._id}`}>
+                    <Button className="mt-4 w-full flex items-center justify-center bg-primary text-white hover:bg-primary/80 transition-all duration-300 transform hover:scale-105">
+                      View Products
+                    </Button>
+                  </Link>
+                </div>
+              </div>
+            ))
+          ) : (
+            <p className="text-center text-lg text-gray-200">
+              Loading categories...
+            </p>
+          )}
+        </div>
+      </section>
       {/* Featured Products */}
       <section className="py-16 px-6">
         <h2 className="text-center text-4xl font-semibold text-white mb-10">
