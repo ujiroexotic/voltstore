@@ -8,6 +8,7 @@ import userRoutes from "./routes/userRoutes";
 import cartRoutes from "./routes/cartRoutes";
 import orderRoutes from "./routes/orderRoutes";
 import categoryRoutes from "./routes/categoryRoutes";
+import transactionRoutes from "./routes/transactionRoute";
 import { errorHandler, notFound } from "./middlewares/errorMiddleware";
 import { requestLogger } from "./middlewares/logger";
 import cors from "cors";
@@ -58,6 +59,7 @@ app.use("/api/users", userRoutes);
 app.use("/api/cart", cartRoutes); // Auth required for cart
 app.use("/api/orders", orderRoutes); // Auth required for orders
 app.use("/api/category", categoryRoutes);
+app.use("/api/transaction", transactionRoutes);
 // Admin-only route (example)
 app.use("/api/admin", protect, admin, (req: Request, res: Response) => {
   res.send("Welcome Admin");
