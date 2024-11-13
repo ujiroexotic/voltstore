@@ -198,7 +198,7 @@ const OrdersDataTable = () => {
           <MRT_GlobalFilterTextField table={table} />
           <MRT_ToggleFiltersButton table={table} />
         </Box>
-        <Button
+        {/* <Button
           variant="contained"
           color="primary"
           onClick={() => {
@@ -206,7 +206,7 @@ const OrdersDataTable = () => {
           }}
         >
           Add Order
-        </Button>
+        </Button> */}
       </Box>
     ),
   });

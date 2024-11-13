@@ -4,6 +4,7 @@ import axios from "axios";
 
 const initialState = {
   orders: [],
+  weeklyOrders: [],
   error: null,
   isLoading: false,
 };
@@ -19,7 +20,7 @@ export const getAllOrders = createAsyncThunk(
           withCredentials: true,
         }
       );
-      console.log("Order response: ", response);
+      console.log("Order response: ", response.data);
       return response.data;
     } catch (error) {
       return rejectWithValue(
@@ -93,6 +94,25 @@ export const deleteOrder = createAsyncThunk(
   }
 );
 
+export const getAllOrdersThisWeekByDay = createAsyncThunk(
+  "orders/fetchAllThisWeekByDay",
+  async (_, { rejectWithValue }) => {
+    try {
+      const response = await axios.get(
+        `${process.env.REACT_APP_BACKEND_API_URL}/api/orders/thisWeek`,
+        {
+          withCredentials: true,
+        }
+      );
+      console.log("Weekly order response: ", response.data);
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(
+        error.response ? error.response.data : "An error occurred"
+      );
+    }
+  }
+);
 const ordersSlice = createSlice({
   name: "orders",
   initialState,
@@ -148,6 +168,18 @@ const ordersSlice = createSlice({
         );
       })
       .addCase(deleteOrder.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.payload;
+      })
+      .addCase(getAllOrdersThisWeekByDay.pending, (state) => {
+        state.isLoading = true;
+        state.error = null;
+      })
+      .addCase(getAllOrdersThisWeekByDay.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.weeklyOrders = action.payload;
+      })
+      .addCase(getAllOrdersThisWeekByDay.rejected, (state, action) => {
         state.isLoading = false;
         state.error = action.payload;
       });

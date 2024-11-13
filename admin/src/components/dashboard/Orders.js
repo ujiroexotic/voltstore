@@ -1,83 +1,65 @@
 import * as React from "react";
 import { Link } from "react-router-dom";
-
-// import Link from "@mui/material/Link";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Title from "./Title";
-import axios from "axios";
 import { Typography } from "@mui/material";
+import { useSelector, useDispatch } from "react-redux";
+import { getAllOrders } from "../../state/orderSlice";
 
 export default function Orders() {
-  const [bookedAppointments, setBookedAppointments] = React.useState(null);
-  const [message, setMessage] = React.useState("");
-
+  const dispatch = useDispatch();
+  const { orders, isLoading } = useSelector((store) => store.orders);
   const f = new Intl.DateTimeFormat("en-us", {
     dateStyle: "medium",
     timeStyle: "short",
   });
 
-  // React.useEffect(() => {
-  //   const fetchBookedAppointments = async () => {
-  //     try {
-  //       const result = await axios.get(
-  //        `${process.env.REACT_APP_BACKEND_API_URL}/appointment/booked`
-  //       );
-  //       // console.log(result.data);
-  //       setBookedAppointments(result.data);
-  //     } catch (error) {
-  //       setMessage(error.response.data);
-  //       console.error("Error fetching appointments:", error.response.data);
-  //     }
-  //   };
+  React.useEffect(() => {
+    dispatch(getAllOrders());
+  }, [dispatch]);
 
-  //   fetchBookedAppointments();
-  // }, []);
-
-  // if (bookedAppointments === null)
-  //   return (
-  //     <center>
-  //       <h3>Loading ...</h3>
-  //     </center>
-  //   );
   return (
     <React.Fragment>
-      <Title>Recent Booked Appointments</Title>
+      <Title>Recent Orders</Title>
       <Table size="small">
-        {bookedAppointments ? (
+        {orders ? (
           <>
             <TableHead>
               <TableRow>
-                <TableCell>Date</TableCell>
-                <TableCell>Name</TableCell>
-                <TableCell>Email</TableCell>
-                <TableCell>Phone</TableCell>
-                <TableCell align="right">Meeting Platform</TableCell>
+                <TableCell>UserID</TableCell>
+                <TableCell>Status</TableCell>
+                <TableCell>Amount</TableCell>
+                <TableCell>Address</TableCell>
+                <TableCell align="right">Date</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
-              {bookedAppointments.map((row) => (
-                <TableRow key={row._id}>
-                  <TableCell>{f.format(new Date(row.createdAt))}</TableCell>
-                  <TableCell>{`${row.firstName} ${row.lastName}`}</TableCell>
-                  <TableCell>{row.email}</TableCell>
-                  <TableCell>{row.phone}</TableCell>
-                  <TableCell align="right">{row.meetingPlatform}</TableCell>
+              {orders.slice(0, 5).map((order) => (
+                <TableRow key={order._id}>
+                  <TableCell>{order._id}</TableCell>
+                  <TableCell>{order.status}</TableCell>
+                  <TableCell>{order.total}</TableCell>
+                  <TableCell>
+                    {order.shippingAddress.city}, {order.shippingAddress.state},{" "}
+                    {order.shippingAddress.country}
+                  </TableCell>
+                  <TableCell align="right">
+                    {f.format(new Date(order.createdAt))}
+                  </TableCell>
                 </TableRow>
               ))}
             </TableBody>
           </>
         ) : (
-          <h2 style={{color:"gray"}}>
-            {message}
-          </h2>
+          <Typography color="textSecondary">Loading...</Typography>
         )}
       </Table>
-      <Link to="/appointments" style={{ color:"#159EEC" }}>
-        See all Appointments
+      <Link to="/orders" style={{ color: "#159EEC" }}>
+        See all Orders
       </Link>
     </React.Fragment>
   );
