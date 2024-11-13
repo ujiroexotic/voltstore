@@ -1,13 +1,14 @@
 # Voltstore
-An online Ecommerce
+An online Ecommerce Platform
 
 ## Screenshots
 ![s1](assets/home.png)
-![s2](.res/Carosel1.png)
-![s3](.res/Carosel2.png)
-![s4](.res/Movie.png)
-![s5](.res/Register.png)
-![s6](.res/Map.png)
+![s2](assets/login.png)
+![s3](assets/category.png)
+![s4](assets/product1.png)
+![s5](assets/product2.png)
+![s6](assets/mobile1.png)
+![s7](assets/mobile2.png)
 
 
 ## Table of Contents
