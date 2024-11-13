@@ -2,10 +2,34 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
 const initialState = {
+  user: [],
   isLoggedIn: false,
   error: null,
   isLoading: true, // Initially true to indicate loading state
 };
+
+// Thunk to get all users
+export const getAllCustomers = createAsyncThunk(
+  "api/users/getAll",
+  async (_, { rejectWithValue }) => {
+    try {
+      const response = await axios.get(
+        `${process.env.REACT_APP_BACKEND_API_URL}/api/users/getAll`,
+        {
+          withCredentials: true,
+        }
+      );
+      console.log("User response: ", response.data);
+      return response.data;
+    } catch (error) {
+      if (error.response) {
+        return rejectWithValue(error.response.data);
+      } else {
+        return rejectWithValue({ message: error.message });
+      }
+    }
+  }
+);
 
 // Thunk to check if user is logged in
 export const checkUserStatus = createAsyncThunk(
@@ -28,7 +52,6 @@ export const checkUserStatus = createAsyncThunk(
     }
   }
 );
-
 
 // Thunk for user login
 export const login = createAsyncThunk(
@@ -77,7 +100,7 @@ export const logout = createAsyncThunk(
 );
 
 const userSlice = createSlice({
-  name: "admin",
+  name: "user",
   initialState,
   reducers: {},
   extraReducers: (builder) => {
@@ -119,6 +142,18 @@ const userSlice = createSlice({
       .addCase(logout.rejected, (state, action) => {
         state.isLoading = false;
         state.isLoggedIn = true;
+        state.error = action.payload;
+      })
+      .addCase(getAllCustomers.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(getAllCustomers.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.user = action.payload;
+        state.error = null;
+      })
+      .addCase(getAllCustomers.rejected, (state, action) => {
+        state.isLoading = false;
         state.error = action.payload;
       });
   },
