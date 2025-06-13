@@ -649,7 +649,7 @@ We welcome contributions to our project! Whether you’re fixing a bug, adding a
 
 ## Authors
 
-- **Ibnu Jabir Kedir**: [GitHub](https://github.com/IbnuJabir) / [X](https://x.com/Ibnu_J1) / [LinkedIn](https://www.linkedin.com/in/ibnu-jabir/)
+- **Kedir Jabir**: [GitHub](https://github.com/IbnuJabir) / [X](https://x.com/Ibnu_J1) / [LinkedIn](https://www.linkedin.com/in/ibnu-jabir/)
 - **David Agbaniyaka**: [GitHub](https://github.com/agbaiongithub) / [LinkedIn](https://www.linkedin.com/in/davidagba)
 - **Orion Dooms**: [GitHub](https://github.com/OrionDooms) / [X](https://x.com/Orion51540) / [LinkedIn](https://www.linkedin.com/in/orion-dooms-168b86278)
 - **Ujiro Eruteya**: [GitHub](https://github.com/ujiroexotic) / [X](https://x.com/ujiroexotic) / [LinkedIn](https://www.linkedin.com/in/ujiro-eruteya)
