@@ -1,13 +1,12 @@
 "use client";
-
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { ShoppingCart } from "lucide-react";
-import { useCart } from "@/components/CartContext"; // Ensure this path is correct
+import { useCart } from "@/components/CartContext";
 import { Product } from "@/types/products";
-import { useGetProductsQuery } from "@/redux/slices/productsApiSlice"; // Import the RTK hook
+import { useGetProductsQuery } from "@/redux/slices/productsApiSlice";
 
 const CollectionPage = () => {
   const { addToCart } = useCart();
@@ -28,7 +27,6 @@ const CollectionPage = () => {
       });
       setImageUrls(urls);
 
-      // Cleanup Blob URLs when component unmounts
       return () => {
         Object.values(urls).forEach((url) => URL.revokeObjectURL(url));
       };
@@ -36,7 +34,7 @@ const CollectionPage = () => {
   }, [products]);
 
   return (
-    <div className="bg-gradient-to-r from-blue-500 via-purple-600 to-pink-500 text-gray-900 min-h-screen">
+    <div className="bg-gradient-to-r from-blue-500 via-purple-600 to-pink-500 min-h-screen text-gray-900">
       <h1 className="text-center text-4xl font-bold text-white py-10">
         Our Collection
       </h1>
@@ -47,14 +45,16 @@ const CollectionPage = () => {
         </div>
       )}
 
-      {error && <p className="text-center text-red-400">Failed to load products</p>}
+      {error && (
+        <p className="text-center text-red-400">Failed to load products</p>
+      )}
 
       {!isLoading && !error && (
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 px-6 pb-16">
           {products.map((product) => (
             <div
               key={product._id}
-              className="group rounded-lg overflow-hidden shadow-lg transform transition-all duration-300 hover:scale-105 bg-white"
+              className="group rounded-lg overflow-hidden shadow-lg bg-white transform transition-all duration-300 hover:scale-105"
             >
               <Link
                 href={`/collection/${product._id}`}
@@ -64,26 +64,23 @@ const CollectionPage = () => {
                   <Image
                     src={imageUrls[product._id]}
                     alt={product.name}
-                    layout="fill"
-                    objectFit="cover"
-                    className="transition-transform duration-300 group-hover:scale-110"
+                    fill
+                    className="object-cover transition-transform duration-300 group-hover:scale-110"
                   />
                 )}
               </Link>
               <div className="p-4 text-center">
                 <h2
-                  className="text-lg font-semibold text-gray-800 truncate max-w-full"
+                  className="text-lg font-semibold text-gray-800 truncate"
                   title={product.description}
                 >
                   {product.name}
                 </h2>
-                <p className="text-gray-600 mt-1">
-                  ${product.price.toFixed(2)}
-                </p>
+                <p className="text-gray-600 mt-1">${product.price.toFixed(2)}</p>
                 <p
-                  className={`text-sm ${
+                  className={`text-sm mt-1 ${
                     product.stock > 0 ? "text-green-500" : "text-red-500"
-                  } mt-1`}
+                  }`}
                 >
                   {product.stock > 0 ? "In Stock" : "Out of Stock"}
                 </p>
@@ -94,11 +91,11 @@ const CollectionPage = () => {
                       quantity: 1,
                       name: product.name,
                       price: product.price,
-                      imageUrls:imageUrls[product._id]
+                      imageUrls: imageUrls[product._id],
                     })
                   }
-                  className="mt-4 w-full flex items-center justify-center bg-primary text-white hover:bg-primary/80 transition-all duration-300 transform hover:scale-105"
-                  disabled={product.stock === 0} // Disable button if out of stock
+                  className="mt-4 w-full flex items-center justify-center bg-primary text-white hover:bg-primary/80 transition-all duration-300 hover:scale-105"
+                  disabled={product.stock === 0}
                 >
                   Add to Cart <ShoppingCart className="ml-2" size={18} />
                 </Button>
@@ -112,3 +109,4 @@ const CollectionPage = () => {
 };
 
 export default CollectionPage;
+

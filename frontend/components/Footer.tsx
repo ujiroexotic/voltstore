@@ -1,5 +1,3 @@
-import Image from "next/image";
-
 const Footer = () => {
   return (
     <footer className="bg-white">
@@ -95,8 +93,7 @@ const Footer = () => {
           <div className="text-center sm:flex sm:justify-between sm:text-left">
             <p className="text-sm text-gray-500">All rights reserved.</p>
             <p className="mt-4 text-sm text-gray-500 sm:order-first sm:mt-0">
-              &copy;
-              {new Date().getFullYear()} VoltStore, Inc.
+              &copy; {new Date().getFullYear()} VoltStore, Inc.
             </p>
           </div>
 
@@ -116,11 +113,12 @@ const Footer = () => {
                   viewBox="0 0 24 24"
                   aria-hidden="true"
                 >
-                  {/* Facebook Icon */}
+                  {/* Facebook SVG path example */}
+                  <path d="M22 12a10 10 0 10-11.5 9.87v-7h-2v-3h2v-2c0-2 1-3 3-3h2v3h-2c-1 0-1 1-1 1v2h3l-1 3h-2v7A10 10 0 0022 12z" />
                 </svg>
               </a>
             </li>
-            {/* Repeat for Instagram, Twitter */}
+            {/* You can add Instagram, Twitter similarly */}
           </ul>
         </div>
       </div>

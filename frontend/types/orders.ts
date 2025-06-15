@@ -1,12 +1,11 @@
-type Order = {
+// Order from backend API (basic order details)
+export type Order = {
   _id: string;
   user: string;
-  products: [
-    {
-      product: string;
-      quantity: number;
-    }
-  ];
+  products: {
+    product: string;
+    quantity: number;
+  }[];
   paymentIntent: {
     id: string;
     amount: number;
@@ -22,8 +21,7 @@ type Order = {
   updatedAt: Date;
 };
 
-export type { Order };
-
+// Payload for creating an order
 export type CreateOrderPayload = {
   items: {
     product: string;
@@ -39,74 +37,44 @@ export type CreateOrderPayload = {
     postalCode: string;
     country: string;
   };
-    paymentInfo: {
-        cardholderName: string;
-        cardNumber: string;
-        expirationDate: string;
-        cvv: string;
-    };
+  paymentInfo: {
+    cardholderName: string;
+    cardNumber: string;
+    expirationDate: string;
+    cvv: string;
+  };
 };
 
+// For tracking individual items in a user's order
 export type OrderItem = {
   _id: string;
-  product: string;
   quantity: number;
   price: number;
+  product: {
+    _id: string;
+    name: string;
+    description: string;
+    imageUrls?: {
+      data: number[];
+      type: string;
+    }[];
+  };
 };
 
-// export type UserOrders = {
-//     _id: string;
-//     user: string;
-//     total: number;
-//     isDelivered: boolean;
-//     isPaid: boolean;
-//     status: string;
-//     createdAt: string;
-//     updatedAt: string;
-//     items: {
-//       _id: string;
-//       quantity: number;
-//       price: number;
-//       product: {
-//         _id: string;
-//         name: string;
-//         description: string;
-//         category: string;
-//         price: number;
-//         stock: number;
-//         imageUrls: { url: string }[];
-//         createdAt: string;
-//         updatedAt: string;
-//       };
-//     }[];
-//     shippingAddress: {
-//       address: string;
-//       state: string;
-//       street: string;
-//     };
-//   };
-  export type UserOrders = {
-    _id: string;
-    status: string;
-    isPaid: boolean;
-    isDelivered: boolean;
-    createdAt: string;
-    total: number;
-    items: {
-      _id: string;
-      quantity: number;
-      price: number;
-      product: {
-        name: string;
-        description: string;
-      };
-    }[];
-    shippingAddress: {
-      address: string;
-      state: string;
-      street: string;
-      country: string;
-      city: string;
-    };
+// For displaying full user orders in frontend
+export type UserOrders = {
+  _id: string;
+  status: string;
+  isPaid: boolean;
+  isDelivered: boolean;
+  createdAt: string;
+  total: number;
+  items: OrderItem[];
+  shippingAddress: {
+    address: string;
+    state: string;
+    street: string;
+    country: string;
+    city: string;
   };
-  
+};
