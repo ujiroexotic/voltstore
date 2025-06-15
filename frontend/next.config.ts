@@ -1,15 +1,8 @@
-import type { NextConfig } from "next";
+/** @type {import('next').NextConfig} */
+const nextConfig = {
+  output: 'export',
+  // other config options...
+}
 
-const nextConfig: NextConfig = {
-  /* config options here */
-  images: {
-    remotePatterns: [
-      {
-        protocol: "https",
-        hostname: "api-voltstore.up.railway.app",
-      },
-    ],
-  },
-};
+module.exports = nextConfig
 
-export default nextConfig;
